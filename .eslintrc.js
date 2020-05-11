@@ -20,6 +20,7 @@ module.exports = {
       files: ['*.ts'],
       extends: ['plugin:@typescript-eslint/recommended', 'plugin:@typescript-eslint/eslint-recommended'],
       rules: {
+        '@typescript-eslint/no-namespace': 'off',
         '@typescript-eslint/camelcase': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
