@@ -1,6 +1,7 @@
 import { Result, OK, ERR } from './result'
 import { createOptions, OptionsMap } from './options'
 import { flattenOptions } from './command_utils'
+import { suggestCreateDataset } from './suggest_create_dataset'
 
 export { types as Types } from './types'
 import { types, CommandOptions } from './types'
@@ -38,6 +39,10 @@ export class Groongar<T extends GroongaClient> {
       ...this.restrictionAll,
       ...this.restrictions[command],
     }
+  }
+
+  suggestCreateDataset(dataset: string): Promise<boolean> {
+    return suggestCreateDataset(this, dataset)
   }
 
   // genarated by npm run tools:groongar
