@@ -17,7 +17,7 @@ export interface GroongaClient {
   command(command: string, callback: CommandCallback): void
 }
 
-export class Groongar<T extends GroongaClient> {
+export class Groongar<T extends GroongaClient = GroongaClient> {
   readonly client: T
   private defaultOptions: OptionsMap
   private restrictionAll: CommandOptions
