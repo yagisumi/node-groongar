@@ -3,7 +3,7 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  testMatch: ['<rootDir>/test/**/*.test.ts'],
+  testMatch: ['<rootDir>/test/groongar/**/*.test.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'node', 'json'],
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,tsx}'],
@@ -13,9 +13,10 @@ module.exports = {
       tsConfig: './tsconfig.json',
     },
   },
-  globalSetup: './test/setup.js',
-  setupFiles: ['./test/fix-instanceof.js'],
+  // globalSetup: './test/setup.js',
+  // setupFiles: ['./test/fix-instanceof.js'],
   moduleNameMapper: {
     '^@/(.+)': '<rootDir>/src/$1',
   },
+  testTimeout: 30000,
 }
