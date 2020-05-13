@@ -1,12 +1,16 @@
 import type { Groongar, GroongaClient } from './groongar'
+import { OK, Result } from './result'
 
-export async function suggestCreateDataset<T extends GroongaClient>(groongar: Groongar<T>, dataset: string) {
+export async function suggestCreateDataset<T extends GroongaClient>(
+  groongar: Groongar<T>,
+  dataset: string
+): Promise<Result<true>> {
   const r1 = await groongar.pluginRegister({
     name: 'suggest/suggest',
   })
 
   if (r1.error) {
-    return false
+    return r1
   }
 
   const r2 = await groongar.tableCreate({
@@ -16,7 +20,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r2.error) {
-    return false
+    return r2
   }
 
   const r3 = await groongar.tableCreate({
@@ -28,7 +32,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r3.error) {
-    return false
+    return r3
   }
 
   const r4 = await groongar.tableCreate({
@@ -39,7 +43,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r4.error) {
-    return false
+    return r4
   }
 
   const r5 = await groongar.tableCreate({
@@ -51,7 +55,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r5.error) {
-    return false
+    return r5
   }
 
   const r6 = await groongar.columnCreate({
@@ -63,7 +67,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r6.error) {
-    return false
+    return r6
   }
 
   const r7 = await groongar.columnCreate({
@@ -74,7 +78,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r7.error) {
-    return false
+    return r7
   }
 
   const r8 = await groongar.columnCreate({
@@ -86,7 +90,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r8.error) {
-    return false
+    return r8
   }
 
   const r9 = await groongar.columnCreate({
@@ -97,7 +101,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r9.error) {
-    return false
+    return r9
   }
 
   const r10 = await groongar.columnCreate({
@@ -108,7 +112,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r10.error) {
-    return false
+    return r10
   }
 
   const r11 = await groongar.columnCreate({
@@ -119,7 +123,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r11.error) {
-    return false
+    return r11
   }
 
   const r12 = await groongar.columnCreate({
@@ -130,7 +134,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r12.error) {
-    return false
+    return r12
   }
 
   const r13 = await groongar.columnCreate({
@@ -141,7 +145,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r13.error) {
-    return false
+    return r13
   }
 
   const r14 = await groongar.tableCreate({
@@ -151,7 +155,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r14.error) {
-    return false
+    return r14
   }
 
   const r15 = await groongar.columnCreate({
@@ -162,7 +166,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r15.error) {
-    return false
+    return r15
   }
 
   const r16 = await groongar.columnCreate({
@@ -173,7 +177,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r16.error) {
-    return false
+    return r16
   }
 
   const r17 = await groongar.columnCreate({
@@ -184,7 +188,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r17.error) {
-    return false
+    return r17
   }
 
   const r18 = await groongar.columnCreate({
@@ -195,7 +199,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r18.error) {
-    return false
+    return r18
   }
 
   const r19 = await groongar.columnCreate({
@@ -206,7 +210,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r19.error) {
-    return false
+    return r19
   }
 
   const r20 = await groongar.columnCreate({
@@ -218,7 +222,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r20.error) {
-    return false
+    return r20
   }
 
   const r21 = await groongar.tableCreate({
@@ -228,7 +232,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r21.error) {
-    return false
+    return r21
   }
 
   const r22 = await groongar.tableCreate({
@@ -237,7 +241,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r22.error) {
-    return false
+    return r22
   }
 
   const r23 = await groongar.columnCreate({
@@ -248,7 +252,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r23.error) {
-    return false
+    return r23
   }
 
   const r24 = await groongar.columnCreate({
@@ -259,7 +263,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r24.error) {
-    return false
+    return r24
   }
 
   const r25 = await groongar.columnCreate({
@@ -270,7 +274,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r25.error) {
-    return false
+    return r25
   }
 
   const r26 = await groongar.columnCreate({
@@ -281,7 +285,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r26.error) {
-    return false
+    return r26
   }
 
   const r27 = await groongar.columnCreate({
@@ -292,7 +296,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r27.error) {
-    return false
+    return r27
   }
 
   const r28 = await groongar.tableCreate({
@@ -302,7 +306,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r28.error) {
-    return false
+    return r28
   }
 
   const r29 = await groongar.columnCreate({
@@ -313,7 +317,7 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r29.error) {
-    return false
+    return r29
   }
 
   const values = [
@@ -329,8 +333,8 @@ export async function suggestCreateDataset<T extends GroongaClient>(groongar: Gr
   })
 
   if (r30.error) {
-    return false
+    return r30
   }
 
-  return true
+  return OK(true)
 }

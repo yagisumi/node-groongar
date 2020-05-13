@@ -32,7 +32,7 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
     this.restrictions = opts.restrictions
   }
 
-  private mergeOptions(command: keyof types.CommandMap, options?: CommandOptions): CommandOptions {
+  protected mergeOptions(command: keyof types.CommandMap, options?: CommandOptions): CommandOptions {
     return {
       ...this.defaultOptions[command],
       ...options,
@@ -41,7 +41,7 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
     }
   }
 
-  suggestCreateDataset(dataset: string): Promise<boolean> {
+  suggestCreateDataset(dataset: string): Promise<Result<boolean>> {
     return suggestCreateDataset(this, dataset)
   }
 
