@@ -79,12 +79,20 @@ describe('test', () => {
       expect(r5.value.n_hits).toBe(0)
     }
 
+    // sometimes test fails with stdio interface
+    await groongar.threadLimit({
+      max: 4,
+    })
+
     const r6 = await groongar.tableCopy({
       from_name: info1.table,
       to_name: table,
     })
     expect(r6.ok).toBe(true)
     expect(r6.error).toBeUndefined()
+    if (r6.ok) {
+      expect(r6.value).toBe(true)
+    }
 
     const r7 = await groongar.select({
       table: table,
