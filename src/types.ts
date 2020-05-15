@@ -1,7 +1,5 @@
 type CompletionList<T> = T | (string & {})
 type retMap<T> = {
-  default: T
-  union: T
   1: T
   2: T
   3: T
@@ -11,15 +9,16 @@ export type CommandOptions = { [name: string]: any }
 
 export declare namespace types {
   type commands = keyof CommandMap
-  type cmd_vers = 'default' | 'union' | 1 | 2 | 3
+  type cmd_vers = 1 | 2 | 3
   type opts<K extends keyof CommandMap> = CommandMap[K]['opts']
-  type ret<K extends keyof CommandMap = keyof CommandMap, V extends cmd_vers = 'default'> = CommandMap[K]['ret'][V]
-  type callback<K extends keyof CommandMap, V extends cmd_vers = 'default'> = (
-    err: Error | null,
-    data: ret<K, V>
-  ) => void
+  type ret<K extends keyof CommandMap, V extends cmd_vers> = CommandMap[K]['ret'][V]
+  type callback<K extends keyof CommandMap, V extends cmd_vers> = (err: Error | null, data: ret<K, V>) => void
 
   type OutputType = 'json' | 'xml' | 'tsv' | 'msgpack'
+
+  interface CommandVersion<V extends 1 | 2 | 3> {
+    command_version: V
+  }
 
   interface CommonOptions {
     command_version?: number
@@ -564,8 +563,6 @@ export declare namespace types {
         lock_table?: YesNo
       }
       ret: {
-        default: LoadReturnValueV3
-        union: number | LoadReturnValueV3
         1: number
         2: number
         3: LoadReturnValueV3
@@ -791,8 +788,6 @@ export declare namespace types {
         columns?: { [name: string]: DynamicColumnArgs }
       }
       ret: {
-        default: LogicalRangeFilterReturnValue
-        union: any
         1: LogicalRangeFilterReturnValue
         2: LogicalRangeFilterReturnValue
         3: any
@@ -1040,8 +1035,6 @@ export declare namespace types {
          */
       }
       ret: {
-        default: SelectReturnValueV1
-        union: any
         1: SelectReturnValueV1
         2: SelectReturnValueV1
         3: any
@@ -1377,8 +1370,6 @@ export declare namespace types {
         output_columns?: string
       }
       ret: {
-        default: RangeFileterReturnValueV3
-        union: RangeFileterReturnValue
         1: RangeFileterReturnValueV1
         2: RangeFileterReturnValueV1
         3: RangeFileterReturnValueV3
@@ -1674,8 +1665,6 @@ export declare namespace types {
         slices?: { [name: string]: SliceArgs }
       }
       ret: {
-        default: SearchResultV3
-        union: SelectReturnValueV1 | SelectReturnValueV3
         1: SelectReturnValueV1
         2: SelectReturnValueV1
         3: SelectReturnValueV3
