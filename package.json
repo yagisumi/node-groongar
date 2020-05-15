@@ -1,8 +1,10 @@
 {
   "name": "@yagisumi/groongar",
   "version": "0.1.0",
-  "description": "",
-  "keywords": [],
+  "description": "Groonga client helper.",
+  "keywords": [
+    "groonga"
+  ],
   "private": true,
   "main": "lib/groongar",
   "module": "lib/groongar.mjs",
@@ -16,7 +18,7 @@
     "test:env:http": "jest --testEnvironment=./test/lib/env_http.js --collectCoverage=false",
     "doc": "typedoc --json ./docs/typedoc.json --tsconfig ./tsconfig.json ./src",
     "build": "run-s clean build:*",
-    "clean": "rimraf lib coverage umd *.tgz .rpt2_cache",
+    "clean": "rimraf lib coverage umd *.tgz .rpt2_cache tools/lib test/lib",
     "build:cjs": "rollup -c -f cjs -o ./lib/groongar.js",
     "build:mjs": "rollup -c -f es -o ./lib/groongar.mjs",
     "build:umd": "rollup -c rollup.config.umd.js",
