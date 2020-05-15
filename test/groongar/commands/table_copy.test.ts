@@ -5,6 +5,14 @@ import { setup1, info1 } from './setup'
 const db_dir = path.join(__dirname, 'db_table_copy')
 let env: TestEnv
 
+function sleep(msec: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, msec)
+  })
+}
+
 describe('test', () => {
   beforeAll(() => {
     rimraf(db_dir)
@@ -80,9 +88,11 @@ describe('test', () => {
     }
 
     // sometimes test fails with stdio interface
-    await groongar.threadLimit({
-      max: 4,
-    })
+    if (clientInterface === 'stdio') {
+      await groongar.threadLimit({
+        max: 4,
+      })
+    }
 
     const r6 = await groongar.tableCopy({
       from_name: info1.table,
@@ -92,6 +102,10 @@ describe('test', () => {
     expect(r6.error).toBeUndefined()
     if (r6.ok) {
       expect(r6.value).toBe(true)
+    }
+
+    if (clientInterface === 'stdio') {
+      await sleep(1000)
     }
 
     const r7 = await groongar.select({
