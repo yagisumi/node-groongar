@@ -76,5 +76,18 @@ describe('test', () => {
       expect(records[0].year).toBe(1986)
       expect(records[0].publisher).toBe('SQUARE ENIX')
     }
+
+    const r5 = await groongar.select({
+      table: info1.table,
+      filter: '_key == "Dragon Quest"',
+      command_version: 1,
+    })
+    expect(r5.ok).toBe(true)
+    expect(r5.error).toBeUndefined()
+    if (r5.ok) {
+      expect(r5.value[0][0][0]).toBe(1)
+      expect(r5.value[0][2].includes('Dragon Quest')).toBe(true)
+      expect(r5.value[0][2].includes('SQUARE ENIX')).toBe(true)
+    }
   })
 })

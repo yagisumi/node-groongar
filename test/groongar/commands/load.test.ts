@@ -53,5 +53,16 @@ describe('test', () => {
       expect(r2.value.errors).toBeUndefined()
       expect(r2.value.loaded_ids).toBeUndefined()
     }
+
+    const r3 = await groongar.load({
+      table: info1.table,
+      values: [],
+      command_version: 1,
+    })
+    expect(r3.ok).toBe(true)
+    expect(r3.error).toBeUndefined()
+    if (r3.ok) {
+      expect(r3.value).toBe(0)
+    }
   })
 })
