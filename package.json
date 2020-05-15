@@ -16,7 +16,6 @@
     "test:env:nroonga": "jest --testEnvironment=./test/lib/env_nroonga.js",
     "test:env:stdio": "jest --testEnvironment=./test/lib/env_stdio.js --collectCoverage=false",
     "test:env:http": "jest --testEnvironment=./test/lib/env_http.js --collectCoverage=false",
-    "doc": "typedoc --json ./docs/typedoc.json --tsconfig ./tsconfig.json ./src",
     "build": "run-s clean build:*",
     "clean": "rimraf lib coverage umd *.tgz .rpt2_cache tools/lib test/lib",
     "build:cjs": "rollup -c -f cjs -o ./lib/groongar.js",
@@ -38,11 +37,11 @@
   "license": "MIT",
   "devDependencies": {
     "@jest/types": "^26.0.1",
-    "@types/jest": "^25.2.1",
-    "@types/node": "^13.13.5",
+    "@types/jest": "^25.2.2",
+    "@types/node": "^14.0.1",
     "@types/rimraf": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.31.0",
-    "@typescript-eslint/parser": "^2.31.0",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
     "@yagisumi/groonga-http-client": "file:yagisumi-groonga-http-client-0.1.0.tgz",
     "@yagisumi/groonga-stdio-client": "file:yagisumi-groonga-stdio-client-0.1.0.tgz",
     "coveralls": "^3.1.0",
@@ -56,14 +55,13 @@
     "nroonga": "^0.4.3",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "rollup": "^2.9.0",
+    "rollup": "^2.10.2",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.3.0",
-    "rollup-plugin-typescript2": "^0.27.0",
-    "sortobject": "^3.0.0",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "sortobject": "^4.0.0",
     "ts-jest": "^25.5.1",
-    "typedoc": "^0.17.6",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.2"
   }
 }
