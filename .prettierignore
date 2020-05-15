@@ -2,3 +2,5 @@
 /lib
 /umd
 tsconfig.json
+/test/lib
+/tools/lib
