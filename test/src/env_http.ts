@@ -89,8 +89,6 @@ export default class StdioEnvironment extends NodeEnvironment {
     g.copyFile = copyFile
     g.setup = setup
     g.teardown = teardown
-    g.config = config
-    g.context = this.context
     g.clientInterface = 'http'
   }
 }

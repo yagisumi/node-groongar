@@ -21,4 +21,3 @@ interface TestEnv {
 
 declare function setup(config: SetupConfig): Promise<TestEnv>
 declare function teardown(env: TestEnv): Promise<void>
-declare const context: any
