@@ -24,14 +24,12 @@ function teardown(env: StdioTestEnv): Promise<void> {
   return new Promise((resolve) => {
     try {
       env.client.command('quit', () => {
-        setTimeout(() => {
-          try {
-            env.client.kill()
-          } catch (err) {
-            // empty
-          }
-          resolve()
-        }, 1000)
+        try {
+          env.client.kill()
+        } catch (err) {
+          // empty
+        }
+        resolve()
       })
     } catch (err) {
       // empty
@@ -51,8 +49,6 @@ export default class StdioEnvironment extends NodeEnvironment {
     g.copyFile = copyFile
     g.setup = setup
     g.teardown = teardown
-    g.config = config
-    g.context = this.context
     g.clientInterface = 'stdio'
   }
 }
