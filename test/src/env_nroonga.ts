@@ -45,5 +45,6 @@ export default class NroongaEnvironment extends NodeEnvironment {
     g.teardown = teardown
     g.config = config
     g.context = this.context
+    g.clientInterface = 'nroonga'
   }
 }

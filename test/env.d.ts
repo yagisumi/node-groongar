@@ -4,6 +4,7 @@ declare function mkdir(path: string): void
 declare function exists(path: string): boolean
 declare function rimraf(dir_path: string): void
 declare function copyFile(src: string, dest: string): void
+declare const clientInterface: 'nroonga' | 'http' | 'stdio'
 
 type CommandCallback = (err: Error | undefined, data: any) => void
 interface GroongaClient {
