@@ -19,25 +19,26 @@ export interface GroongaClient {
 
 export class Groongar<T extends GroongaClient = GroongaClient> {
   readonly client: T
-  private defaultOptions: OptionsMap
-  private restrictionAll: CommandOptions
-  private restrictions: OptionsMap
+  private defaultOptionBase: CommandOptions
+  private defaultOptionMap: OptionsMap
+  private overwriteOptionBase: CommandOptions
+  private overwriteOptionMap: OptionsMap
 
   constructor(client: T) {
     this.client = client
 
     const opts = createOptions()
-    this.defaultOptions = opts.defaultOptions
-    this.restrictionAll = opts.restrictionAll
-    this.restrictions = opts.restrictions
+    this.defaultOptionBase = opts.defaultOptionBase
+    this.defaultOptionMap = opts.defaultOptionMap
+    this.overwriteOptionBase = opts.overwriteOptionBase
+    this.overwriteOptionMap = opts.overwriteOptionMap
   }
 
   protected mergeOptions(command: keyof types.CommandMap, options?: CommandOptions): CommandOptions {
     return {
-      ...this.defaultOptions[command],
+      ...(this.defaultOptionMap[command] ?? this.defaultOptionBase),
       ...options,
-      ...this.restrictionAll,
-      ...this.restrictions[command],
+      ...(this.overwriteOptionMap[command] ?? this.overwriteOptionBase),
     }
   }
 

@@ -3,14 +3,18 @@ import { types, CommandOptions } from './types'
 export type OptionsMap = { [key in keyof types.CommandMap]?: Partial<types.CommandMap[key]['opts']> }
 
 type Options = {
-  defaultOptions: OptionsMap
-  restrictionAll: CommandOptions
-  restrictions: OptionsMap
+  defaultOptionBase: CommandOptions
+  defaultOptionMap: OptionsMap
+  overwriteOptionBase: CommandOptions
+  overwriteOptionMap: OptionsMap
 }
 
 export function createOptions(): Options {
   return {
-    defaultOptions: {
+    defaultOptionBase: {
+      command_version: 1,
+    },
+    defaultOptionMap: {
       select: {
         command_version: 3,
       },
@@ -22,19 +26,23 @@ export function createOptions(): Options {
       },
     },
 
-    restrictionAll: {
+    overwriteOptionBase: {
       output_type: 'json',
     },
 
-    restrictions: {
+    overwriteOptionMap: {
+      dump: {},
       load: {
         input_type: 'json',
+        output_type: 'json',
       },
       logical_select: {
         command_version: 2,
+        output_type: 'json',
       },
       logical_range_filter: {
         command_version: 2,
+        output_type: 'json',
       },
     },
   }
