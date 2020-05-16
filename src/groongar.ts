@@ -1758,6 +1758,11 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   // </commands>
 }
 
-export function createGroongar<T extends GroongaClient>(client: T) {
-  return new Groongar(client)
+export function createGroongar<T extends GroongaClient>(client: T): Result<Groongar<T>> {
+  try {
+    const groongar = new Groongar(client)
+    return OK(groongar)
+  } catch (err) {
+    return ERR(err)
+  }
 }

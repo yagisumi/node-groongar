@@ -36,7 +36,12 @@ describe('test', () => {
     env = await setup({
       db_path: path.join(db_dir, 'delete.db'),
     })
-    const groongar = createGroongar(env.client)
+    const r_grngr = createGroongar(env.client)
+    if (r_grngr.error) {
+      throw r_grngr.error
+    }
+    const groongar = r_grngr.value
+
     const r1 = await setup1(groongar)
     if (r1.error) {
       throw r1.error

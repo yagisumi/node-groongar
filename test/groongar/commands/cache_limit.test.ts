@@ -35,7 +35,11 @@ describe('test', () => {
     env = await setup({
       db_path: path.join(db_dir, 'cache_limit.db'),
     })
-    const groongar = createGroongar(env.client)
+    const r_grngr = createGroongar(env.client)
+    if (r_grngr.error) {
+      throw r_grngr.error
+    }
+    const groongar = r_grngr.value
 
     const r1 = await groongar.cacheLimit()
     expect(r1.ok).toBe(true)

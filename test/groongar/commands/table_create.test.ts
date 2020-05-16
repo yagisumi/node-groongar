@@ -35,7 +35,11 @@ describe('test', () => {
     env = await setup({
       db_path: path.join(db_dir, 'table_create.db'),
     })
-    const groongar = createGroongar(env.client)
+    const r_grngr = createGroongar(env.client)
+    if (r_grngr.error) {
+      throw r_grngr.error
+    }
+    const groongar = r_grngr.value
 
     const r2 = await groongar.tableCreate({
       name: 'test',
