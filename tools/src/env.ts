@@ -12,7 +12,7 @@ export function path_normalize(path: string) {
 export type Config = {
   groonga: string
   groonga_suggest_create_dataset: string
-  groonga_src: string
+  // groonga_src: string
   // grntest: string
   // prettier: string
 }
@@ -51,7 +51,6 @@ export function init_config() {
   const config: Config = {
     groonga,
     groonga_suggest_create_dataset,
-    groonga_src: '',
   }
 
   fs.writeFileSync(PATH_CONFIG, JSON.stringify(config, null, 2))
@@ -73,7 +72,6 @@ export class Env {
   readonly doc_test_dir = path.join(TOOLS_DIR, 'doc_test')
   readonly temp_dir = path.join(TOOLS_DIR, 'temp')
   readonly tools_test_dir = path.join(TOOLS_DIR, 'test')
-  readonly groonga_grntest_root: string
 
   config: Config
 
@@ -85,18 +83,8 @@ export class Env {
     return this.config.groonga_suggest_create_dataset
   }
 
-  get groonga_src(): string | undefined {
-    if (this.config.groonga_src == null || this.config.groonga_src.length === 0) {
-      return undefined
-    } else {
-      return this.config.groonga_src
-    }
-  }
-
   constructor() {
     this.config = this.load_config()
-
-    this.groonga_grntest_root = path_normalize(path.join(this.config.groonga_src, 'test/command'))
   }
 
   private load_config() {
