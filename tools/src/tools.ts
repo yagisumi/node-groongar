@@ -1,12 +1,14 @@
 import heredoc from 'heredocument'
 import { init_config, Env } from './env'
 import { generateGronngar } from './generate_groongar'
+import { syncGroonga } from './git'
 
 function printUsage() {
   console.log(heredoc`
     USAGE: node tools/lib/tools.js [commands...]
       Commands
         init           create config.json
+        sync           synchronize groonga source code
         doc_test       create grntest of groonga/docs
         convert        convert tests of grntest to tests of groongar
         outputs        collect outputs of grntest
@@ -19,6 +21,7 @@ function printUsage() {
 
 const COMMANDS = {
   init: false,
+  sync: false,
   doc_test: false,
   convert: false,
   outputs: false,
@@ -31,7 +34,7 @@ function isKeyofCommands(key: string): key is keyof typeof COMMANDS {
   return key in COMMANDS
 }
 
-function main() {
+async function main() {
   const commands = Object.create(COMMANDS) as typeof COMMANDS
   const argv = process.argv.slice(2)
   if (argv.length === 0) {
@@ -52,16 +55,22 @@ function main() {
     return
   }
 
-  let env: Env
-  Object.keys(commands).forEach((cmd) => {
+  let env!: Env
+  for (const cmd of Object.keys(commands)) {
     console.log(`tools.js ${cmd}`)
     if (cmd === 'init') {
       init_config()
+    } else if (cmd === 'sync') {
+      env = env ?? new Env()
+      const r = await syncGroonga(env.groonga_repository_dir)
+      if (r.error) {
+        console.error(r.error)
+      }
     } else if (cmd === 'groongar') {
       env = env ?? new Env()
       generateGronngar(env)
     }
-  })
+  }
 }
 
 main()

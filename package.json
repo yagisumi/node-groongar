@@ -29,6 +29,7 @@
     "tools:test": "jest --config tools/jest.config.js",
     "tools:usage": "node tools/lib/tools.js",
     "tools:init": "node tools/lib/tools.js init",
+    "tools:sync": "node tools/lib/tools.js sync",
     "tools:groongar": "node tools/lib/tools.js groongar"
   },
   "author": "yagisumi",
