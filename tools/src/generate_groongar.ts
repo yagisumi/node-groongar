@@ -237,7 +237,7 @@ function generate_methods() {
 }
 
 function format(env: Env, src: string) {
-  const prettierrc = JSON.parse(fs.readFileSync(path.join(env.root_dir, '.prettierrc'), { encoding: 'utf8' }))
+  const prettierrc = JSON.parse(fs.readFileSync(path.join(env.groongar_root_dir, '.prettierrc'), { encoding: 'utf8' }))
   prettierrc.parser = 'typescript'
   return prettier.format(src, prettierrc)
 }

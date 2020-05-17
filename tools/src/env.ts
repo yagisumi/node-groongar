@@ -59,18 +59,20 @@ export function init_config() {
 }
 
 export class Env {
-  readonly root_dir = ROOT_DIR
-  readonly tools_dir = TOOLS_DIR
   readonly path_config = PATH_CONFIG
+
+  readonly groongar_root_dir = ROOT_DIR
+  readonly groongar_test_dir = path.join(this.groongar_root_dir, 'test')
+  readonly groongar_grntest_dir = path.join(this.groongar_test_dir, 'grntest')
+  readonly groongar_typecheck_dir = path.join(this.groongar_test_dir, 'typecheck')
+  readonly path_groongar_ts = path.join(ROOT_DIR, 'src/groongar.ts')
+  readonly tools_dir = TOOLS_DIR
+  readonly groonga_repository_dir = path.join(this.tools_dir, 'groonga')
+
   readonly report_dir = path.join(TOOLS_DIR, 'report')
   readonly doc_test_dir = path.join(TOOLS_DIR, 'doc_test')
-  readonly outputs_dir = path.join(TOOLS_DIR, 'outputs')
   readonly temp_dir = path.join(TOOLS_DIR, 'temp')
-  readonly path_groongar_ts = path.join(ROOT_DIR, 'src/groongar.ts')
   readonly tools_test_dir = path.join(TOOLS_DIR, 'test')
-  readonly tools_test_docs_dir = path.join(this.tools_test_dir, 'docs')
-  readonly tools_test_suit_dir = path.join(this.tools_test_dir, 'suit')
-  readonly tools_test_typecheck_dir = path.join(this.tools_test_dir, 'typecheck')
   readonly groonga_grntest_root: string
 
   config: Config
@@ -123,7 +125,6 @@ export class Env {
   clean() {
     rimraf.sync(this.report_dir)
     rimraf.sync(this.doc_test_dir)
-    rimraf.sync(this.outputs_dir)
   }
 
   clean_test() {
