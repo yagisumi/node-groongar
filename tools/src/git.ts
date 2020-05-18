@@ -97,7 +97,7 @@ export class Git {
   getCommitTime(path: string, until?: number): Promise<Result<number>> {
     return new Promise((resolve) => {
       const until_option = until ? `--until="${formatTime(until)}"` : ''
-      exec(`git log -1 ${until_option} --format=%ai "${path}"`, { cwd: this.repositoryDir }, (err, data) => {
+      exec(`git log -1 ${until_option} --format=%ai -- "${path}"`, { cwd: this.repositoryDir }, (err, data) => {
         if (err) {
           resolve(ERR(err))
         } else {
