@@ -2,7 +2,7 @@ import path from 'path'
 import { createGroongar, Groongar } from '@/groongar'
 import { OK, Result } from '@/result'
 
-const db_dir = path.join(__dirname, 'db_sharding')
+const db_dir = path.join(__dirname, 'tmp.sharding')
 let env: TestEnv
 
 async function setup_sharding(groongar: Groongar): Promise<Result<true>> {
@@ -291,7 +291,7 @@ describe('test', () => {
 
   test('sharding', async () => {
     env = await setup({
-      db_path: path.join(db_dir, 'sharding.db'),
+      db_path: path.join(db_dir, 'tmp.sharding.db'),
     })
     const r_grngr = createGroongar(env.client)
     if (r_grngr.error) {

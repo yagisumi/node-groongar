@@ -2,7 +2,7 @@ import path from 'path'
 import { createGroongar } from '@/groongar'
 import { setup1, info1 } from './setup'
 
-const db_dir = path.join(__dirname, 'db_column_remove')
+const db_dir = path.join(__dirname, 'tmp.column_remove')
 let env: TestEnv
 
 describe('test', () => {
@@ -34,7 +34,7 @@ describe('test', () => {
 
   test('column_remove', async () => {
     env = await setup({
-      db_path: path.join(db_dir, 'column_remove.db'),
+      db_path: path.join(db_dir, 'tmp.column_remove.db'),
     })
     const r_grngr = createGroongar(env.client)
     if (r_grngr.error) {

@@ -1,7 +1,7 @@
 import path from 'path'
 import { createGroongar } from '@/groongar'
 
-const db_dir = path.join(__dirname, 'db_tokenizer_list')
+const db_dir = path.join(__dirname, 'tmp.tokenizer_list')
 let env: TestEnv
 
 describe('test', () => {
@@ -33,7 +33,7 @@ describe('test', () => {
 
   test('tokenizer_list', async () => {
     env = await setup({
-      db_path: path.join(db_dir, 'tokenizer_list.db'),
+      db_path: path.join(db_dir, 'tmp.tokenizer_list.db'),
     })
     const r_grngr = createGroongar(env.client)
     if (r_grngr.error) {

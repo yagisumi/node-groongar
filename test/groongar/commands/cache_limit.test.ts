@@ -1,7 +1,7 @@
 import path from 'path'
 import { createGroongar } from '@/groongar'
 
-const db_dir = path.join(__dirname, 'db_cache_limit')
+const db_dir = path.join(__dirname, 'tmp.cache_limit')
 let env: TestEnv
 
 describe('test', () => {
@@ -33,7 +33,7 @@ describe('test', () => {
 
   test('cache_limit', async () => {
     env = await setup({
-      db_path: path.join(db_dir, 'cache_limit.db'),
+      db_path: path.join(db_dir, 'tmp.cache_limit.db'),
     })
     const r_grngr = createGroongar(env.client)
     if (r_grngr.error) {

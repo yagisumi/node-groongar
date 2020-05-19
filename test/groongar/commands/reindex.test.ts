@@ -2,7 +2,7 @@ import path from 'path'
 import { createGroongar } from '@/groongar'
 import { setup1, info1 } from './setup'
 
-const db_dir = path.join(__dirname, 'db_reindex')
+const db_dir = path.join(__dirname, 'tmp.reindex')
 let env: TestEnv
 
 describe('test', () => {
@@ -34,7 +34,7 @@ describe('test', () => {
 
   test('reindex', async () => {
     env = await setup({
-      db_path: path.join(db_dir, 'reindex.db'),
+      db_path: path.join(db_dir, 'tmp.reindex.db'),
     })
     const r_grngr = createGroongar(env.client)
     if (r_grngr.error) {

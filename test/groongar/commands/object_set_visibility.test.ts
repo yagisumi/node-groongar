@@ -2,7 +2,7 @@ import path from 'path'
 import { createGroongar } from '@/groongar'
 import { setup1 } from './setup'
 
-const db_dir = path.join(__dirname, 'db_object_set_visibility')
+const db_dir = path.join(__dirname, 'tmp.object_set_visibility')
 let env: TestEnv
 
 describe('test', () => {
@@ -34,7 +34,7 @@ describe('test', () => {
 
   test('object_set_visibility', async () => {
     env = await setup({
-      db_path: path.join(db_dir, 'object_set_visibility.db'),
+      db_path: path.join(db_dir, 'tmp.object_set_visibility.db'),
     })
     const r_grngr = createGroongar(env.client)
     if (r_grngr.error) {

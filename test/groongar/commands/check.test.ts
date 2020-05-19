@@ -2,7 +2,7 @@ import path from 'path'
 import { createGroongar } from '@/groongar'
 import { setup1 } from './setup'
 
-const db_dir = path.join(__dirname, 'db_check')
+const db_dir = path.join(__dirname, 'tmp.check')
 let env: TestEnv
 
 describe('test', () => {
@@ -34,7 +34,7 @@ describe('test', () => {
 
   test('check', async () => {
     env = await setup({
-      db_path: path.join(db_dir, 'check.db'),
+      db_path: path.join(db_dir, 'tmp.check.db'),
     })
     const r_grngr = createGroongar(env.client)
     if (r_grngr.error) {

@@ -4,7 +4,7 @@ import { setup1, info1, buildRecords } from './setup'
 import { types } from '@/types'
 import { OK, ERR, Result } from '@/result'
 
-const db_dir = path.join(__dirname, 'db_define_selector')
+const db_dir = path.join(__dirname, 'tmp.define_selector')
 let env: TestEnv
 
 declare module '@/groongar' {
@@ -58,7 +58,7 @@ describe('test', () => {
 
   test('define_selector', async () => {
     env = await setup({
-      db_path: path.join(db_dir, 'define_selector.db'),
+      db_path: path.join(db_dir, 'tmp.define_selector.db'),
     })
     const r_grngr = createGroongar(env.client)
     if (r_grngr.error) {
