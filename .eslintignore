@@ -1,4 +1,6 @@
 /lib
 /umd
+/tools/lib
+/tools/groonga
 node_modules/
 tsconfig.json
