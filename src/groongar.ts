@@ -1,4 +1,5 @@
 import { Result, OK, ERR } from './result'
+export { Result, OK, ERR } from './result'
 import { createOptions, OptionsMap } from './options'
 import { flattenOptions } from './command_utils'
 import { suggestCreateDataset } from './suggest_create_dataset'
@@ -13,7 +14,7 @@ import CommandVersion = types.CommandVersion
 type CommandCallback = (err: Error | undefined, data: any) => void
 
 export interface GroongaClient {
-  command(command: string, options: object, callback: CommandCallback): void
+  command(command: string, options: Record<string, unknown>, callback: CommandCallback): void
   command(command: string, callback: CommandCallback): void
 }
 
