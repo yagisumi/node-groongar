@@ -8,7 +8,7 @@ declare const clientInterface: 'nroonga' | 'http' | 'stdio'
 
 type CommandCallback = (err: Error | undefined, data: any) => void
 interface GroongaClient {
-  command(command: string, options: object, callback: CommandCallback): void
+  command(command: string, options: Record<string, unknown>, callback: CommandCallback): void
   command(command: string, callback: CommandCallback): void
 }
 type SetupConfig = {

@@ -1,7 +1,7 @@
 export type CommandCallback = (err: Error | undefined, data: any) => void
 
 export interface GroongaClient {
-  command(command: string, options: object, callback: CommandCallback): void
+  command(command: string, options: Record<string, unknown>, callback: CommandCallback): void
   command(command: string, callback: CommandCallback): void
 }
 

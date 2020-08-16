@@ -1,4 +1,4 @@
-type CompletionList<T> = T | (string & {})
+type CompletionList<T> = T | (string & unknown)
 type retMap<T> = {
   1: T
   2: T
@@ -284,7 +284,7 @@ export declare namespace types {
 
   interface CommandMap {
     database_unmap: {
-      opts: CommonOptions & {}
+      opts: CommonOptions
       ret: retMap<true>
     }
   }
@@ -636,7 +636,7 @@ export declare namespace types {
 
   interface CommandMap {
     log_reopen: {
-      opts: CommonOptions & {}
+      opts: CommonOptions
       ret: retMap<true>
     }
   }
@@ -1136,7 +1136,7 @@ export declare namespace types {
 
   interface CommandMap {
     normalizer_list: {
-      opts: CommonOptions & {}
+      opts: CommonOptions
       ret: retMap<Array<{ name: string }>>
     }
   }
@@ -1176,7 +1176,7 @@ export declare namespace types {
 
   interface CommandMap {
     object_list: {
-      opts: CommonOptions & {}
+      opts: CommonOptions
       /** @todo */
       ret: retMap<ObjectListReturnValue>
     }
@@ -1275,7 +1275,7 @@ export declare namespace types {
 
   interface CommandMap {
     quit: {
-      opts: CommonOptions & {}
+      opts: CommonOptions
       ret: retMap<true>
     }
   }
@@ -1296,7 +1296,7 @@ export declare namespace types {
 
   interface CommandMap {
     query_log_flags_get: {
-      opts: CommonOptions & {}
+      opts: CommonOptions
       ret: retMap<string>
     }
   }
@@ -1507,7 +1507,7 @@ export declare namespace types {
 
   interface CommandMap {
     schema: {
-      opts: CommonOptions & {}
+      opts: CommonOptions
       ret: retMap<SchemaReturnValue>
     }
   }
@@ -1700,7 +1700,7 @@ export declare namespace types {
 
   interface CommandMap {
     status: {
-      opts: CommonOptions & {}
+      opts: CommonOptions
       ret: retMap<StatusReturnValue>
     }
   }
@@ -2016,7 +2016,7 @@ export declare namespace types {
 
   interface CommandMap {
     tokenizer_list: {
-      opts: CommonOptions & {}
+      opts: CommonOptions
       ret: retMap<Array<{ name: string }>>
     }
   }
