@@ -5,7 +5,7 @@ export type Command = {
   string: string
   command: GroongaCommand
   count: number
-  response?: string | object
+  response?: string | Record<string, unknown>
 }
 
 export type Pragma = {
@@ -54,6 +54,10 @@ export class GrnTestScanner {
     } else {
       this.lines = grntest.match(/([^\n]*\n|[^\n]+)/g) as string[]
     }
+  }
+
+  isEnded() {
+    return this.index >= this.lines.length
   }
 
   peek(): string | undefined {
@@ -207,9 +211,9 @@ export class GrnTestScanner {
 
   scanDumpResponse() {
     const lines: string[] = []
-    let line: string | undefined
+    let line = this.peek()
 
-    while ((line = this.peek())) {
+    while (line) {
       if (line === '[[0,0.0,0.0],true]\n') {
         this.index -= 1
         lines.pop()
@@ -227,90 +231,104 @@ export class GrnTestScanner {
 
       lines.push(line)
       this.index += 1
+      line = this.peek()
     }
 
-    return lines.length === 0 ? undefined : lines.join('')
+    return lines.join('')
   }
 
   skipEmptyLines() {
     let line = this.peek()
-    while (line === '\n') {
+    while (line !== undefined && line.match(/^\s*$/)) {
       this.index += 1
       line = this.peek()
     }
   }
 }
 
-export function parseGrnTest(grntest: string) {
+export function parseGrnTest(grntest: string, hasResponse: boolean) {
   const scanner = new GrnTestScanner(grntest)
   const elems: GrnTestElem[] = []
   let count = 1
+  let logging = true
 
-  const comments = scanner.scanComments()
-  if (comments.length !== 0) {
-    elems.push(...comments)
-  }
-  scanner.skipEmptyLines()
-
-  while (true) {
+  while (!scanner.isEnded()) {
+    const start_index = scanner.index
     const cmd_str = scanner.scanCommand()
-    if (cmd_str === undefined) {
-      break
-    }
-
-    const command = parseCommand(cmd_str)
-    if (command === undefined) {
-      throw new Error(`command parse error: ${cmd_str}`)
-    }
-
-    if (command.command_name === 'dump') {
-      elems.push({
-        type: 'command',
-        command,
-        count,
-        string: cmd_str,
-        response: scanner.scanDumpResponse(),
-      })
-      count += 1
-    } else {
-      if (command.command_name === 'load') {
-        const values = scanner.scanValues()
-        if (values) {
-          command.arguments['values'] = values
-        } else if (!('values' in command.arguments) && values === undefined) {
-          throw new Error('unexpected values')
-        }
+    if (cmd_str) {
+      const command = parseCommand(cmd_str)
+      if (command === undefined) {
+        throw new Error(`command parse error: ${cmd_str}`)
       }
 
-      let response: string | object | undefined
-      if (command.output_type === 'apache-arrow') {
-        response = scanner.scanDumpResponse()
-      } else if (command.output_type === 'xml') {
-        response = scanner.scanDumpResponse()
+      if (command.command_name === 'dump') {
+        const response = hasResponse ? scanner.scanDumpResponse() : undefined
+
+        elems.push({
+          type: 'command',
+          command,
+          count: logging ? count : 0,
+          string: cmd_str,
+          response,
+        })
       } else {
-        response = scanner.scanResponse()
-        if (response) {
-          if (response.match(/^\s*(\{|\[)/)) {
-            response = JSON.parse(response)
+        if (command.command_name === 'load' && command.arguments.values === undefined) {
+          const values = scanner.scanValues()
+          if (values) {
+            command.arguments['values'] = values
+          } else if (!('values' in command.arguments) && values === undefined) {
+            throw new Error('unexpected values')
           }
         }
+
+        let response: string | Record<string, unknown> | undefined = undefined
+        if (hasResponse) {
+          if (command.output_type === 'apache-arrow') {
+            response = scanner.scanDumpResponse()
+          } else if (command.output_type === 'xml') {
+            response = scanner.scanDumpResponse()
+          } else {
+            response = scanner.scanResponse()
+            if (response) {
+              if (response.match(/^\s*(\{|\[)/)) {
+                response = JSON.parse(response)
+              }
+            }
+          }
+
+          if (response === undefined) {
+            throw new Error('missing response')
+          }
+        }
+
+        elems.push({
+          type: 'command',
+          command,
+          count: logging ? count : 0,
+          string: cmd_str,
+          response,
+        })
       }
-
-      elems.push({
-        type: 'command',
-        command,
-        count,
-        string: cmd_str,
-        response,
-      })
-      count += 1
+      if (logging) {
+        count += 1
+      }
     }
 
-    const comments = scanner.scanComments()
-    if (comments.length !== 0) {
-      elems.push(...comments)
-    }
     scanner.skipEmptyLines()
+    const comments = scanner.scanComments()
+    comments.forEach((comment) => {
+      if (comment.string.startsWith('#@disable-logging')) {
+        logging = false
+      } else if (comment.string.startsWith('#@enable-logging')) {
+        logging = true
+      }
+      elems.push(comment)
+    })
+    scanner.skipEmptyLines()
+
+    if (start_index === scanner.index) {
+      throw new Error(`No line was scanned at ${start_index}`)
+    }
   }
 
   return elems
