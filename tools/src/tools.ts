@@ -2,6 +2,8 @@ import heredoc from 'heredocument'
 import { init_config, Env } from './env'
 import { generateGronngar } from './generate_groongar'
 import { syncGroonga } from './git'
+import { example } from './example'
+import { convertGrnTest } from './grntest_converter'
 
 function printUsage() {
   console.log(heredoc`
@@ -28,6 +30,7 @@ const COMMANDS = {
   groongar: false,
   clean: false,
   clean_test: false,
+  example: false,
 }
 
 function isKeyofCommands(key: string): key is keyof typeof COMMANDS {
@@ -69,6 +72,13 @@ async function main() {
     } else if (cmd === 'groongar') {
       env = env ?? new Env()
       generateGronngar(env)
+    } else if (cmd === 'example') {
+      console.time('example')
+      await example()
+      console.timeEnd('example')
+    } else if (cmd === 'convert') {
+      env = env ?? new Env()
+      await convertGrnTest(env)
     }
   }
 }

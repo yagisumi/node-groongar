@@ -43,6 +43,16 @@ export function merge(a: any, b: any) {
   }
 
   if (type_a === 'object') {
+    Object.keys(b).forEach((key) => {
+      if (key in a) {
+        a[key] = merge(a[key], b[key])
+      } else {
+        a[key] = b[key]
+      }
+    })
+
+    return a
+
     const keys: { [key: string]: true } = Object.create(null)
     const merged: { [key: string]: any } = {}
     Object.keys(a).forEach((key) => {

@@ -35,7 +35,7 @@ describe('merge', () => {
       i: 3,
     }
     const merged = merge(x, y)
-    expect(merged.a).toBe(x.a + y.a)
+    expect(merged.a).toBe(x.a)
     expect(merged.b.c).toBe(false)
     expect(merged.b.d).toBe('y')
     expect(merged.e).toEqual([1, 2, 3, 4])
@@ -43,5 +43,11 @@ describe('merge', () => {
     expect(merged.g).toBeUndefined()
     expect(merged.h).toEqual({})
     expect(merged.i).toBe(3)
+
+    const obj: any = {}
+    merge(obj, { a: [1], b: 1 })
+    expect(obj).toEqual({ a: [1], b: 1 })
+    merge(obj, { a: [2], b: 2 })
+    expect(obj).toEqual({ a: [1, 2], b: 3 })
   })
 })

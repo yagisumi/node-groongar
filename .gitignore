@@ -11,6 +11,7 @@ node_modules/
 /tools/lib/
 /tools/config.json
 /tools/coverage/
-/tools/groonga
-/test/lib
+/tools/groonga/
+/test/lib/
+/test/grntest/
 tmp.*

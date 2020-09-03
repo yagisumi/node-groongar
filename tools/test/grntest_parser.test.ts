@@ -177,7 +177,7 @@ describe('grntest_parser', () => {
       const text = 'dump   --dump_plugins no   --dump_schema no\n'
       const scanner = new GrnTestScanner(text)
       expect(scanner.scanCommand()).toBe(text)
-      expect(scanner.scanDumpResponse()).toBeUndefined()
+      expect(scanner.scanDumpResponse()).toBe('')
     }
   })
 
@@ -298,7 +298,7 @@ describe('grntest_parser', () => {
         ["peggy","Peggy"]
         ]
       `
-      const elems = parseGrnTest(grntest)
+      const elems = parseGrnTest(grntest, true)
       expect(elems.length).toBe(4)
       expect(elems[0].type).toBe('command')
       expect((elems[0] as Command).count).toBe(1)
@@ -318,7 +318,7 @@ describe('grntest_parser', () => {
 
         dump
       `
-      const elems = parseGrnTest(grntest)
+      const elems = parseGrnTest(grntest, false)
       expect(elems.length).toBe(4)
       expect(elems[0].type).toBe('pragma')
       expect(elems[1].type).toBe('command')
