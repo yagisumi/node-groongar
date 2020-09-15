@@ -1,19 +1,16 @@
 import { Command, Response } from './grntest_parser'
 import { merge } from './merge'
 
-type ErrorInfo = {
-  return_code: number
-  message?: string
-}
-
 type GroongarArgsVal = string | number | bigint | GroongarArgsVal[] | GroongarArgs
 interface GroongarArgs {
   [key: string]: GroongarArgsVal
 }
 
-export function convertCommand(cmd: Command, testPath: string) {}
-
-const FORCE_STRING_KEYS = ['script', 'query', 'filter', 'output_columns', 'string']
+export const FORCE_STRING_KEYS = ['script', 'query', 'filter', 'output_columns', 'string']
+export const ANY_TEST_MAP: Record<string, boolean> = {
+  'suite/config_set/no_value:1': true,
+  // 'reference/commands/io_flush:9': true,
+}
 
 export class CommandConverter {
   cmd: Command
@@ -25,6 +22,9 @@ export class CommandConverter {
   private errorMassage?: string
   private args: GroongarArgs
   private withAny = false
+  private testId: string
+  private skipReason?: string
+  private isolationReason?: string
 
   constructor(cmd: Command, testPath: string) {
     this.cmd = cmd
@@ -33,18 +33,177 @@ export class CommandConverter {
     this.countStr = this.getCountStr(cmd)
     this.errorMassage = getErrorMessage(cmd.response)
     this.args = this.parseArguments({}, cmd.command.arguments, cmd.command.command_name)
+    this.testId = this.getTestId(cmd, testPath)
+
+    this.withAny = ANY_TEST_MAP[this.testId] ? true : false
   }
 
-  main() {}
+  main() {
+    this.gatherInfo()
+    return this.testLines
+  }
+
+  private gatherInfo() {
+    this.skipReason = this.getSkipReason()
+    this.isolationReason = this.getIsolationReason()
+
+    merge(this.report, {
+      commands: {
+        [this.cmd.command.command_name]: {
+          count: 1,
+          args: this.argsInfo(),
+        },
+      },
+    })
+
+    if (this.skipReason) {
+      merge(this.report, {
+        skip_reason: {
+          [this.skipReason]: 1,
+        },
+      })
+    }
+
+    if (this.isolationReason) {
+      merge(this.report, {
+        isolation_reason: {
+          [this.isolationReason]: 1,
+        },
+      })
+    }
+  }
+
+  private argsInfo() {
+    const info: Record<string, number | Record<string, number>> = {}
+    const args = this.cmd.command.arguments
+    const keys = Object.keys(args)
+    if (keys.length === 0) {
+      info['<empty>'] = 1
+    } else {
+      for (const key of keys) {
+        const argKey = key.replace(/\[[.\w]+\]/g, '[]')
+        const val = args[key]
+        const type = this.argType(key, val)
+
+        if (val.match(/^[A-Z_,|\s]+$/)) {
+          merge(info, {
+            [argKey]: {
+              [val]: 1,
+            },
+          })
+        } else {
+          merge(info, {
+            [argKey]: {
+              [type]: 1,
+            },
+          })
+        }
+      }
+    }
+
+    return info
+  }
+
+  private argType(key: string, val: string) {
+    if (FORCE_STRING_KEYS.includes(key)) {
+      return '<string>'
+    }
+
+    if (val.match(/^-?[\d.]+$/)) {
+      if (val.indexOf('.') === -1) {
+        return '<integer>'
+      } else if (val !== '.') {
+        return '<float>'
+      }
+    }
+
+    return '<string>'
+  }
+
+  private getSkipReason() {
+    if (this.cmd.command.arguments['output_type'] === 'apache-arrow') {
+      return 'output_type=apache-arrow'
+    } else {
+      return undefined
+    }
+  }
+
+  private getIsolationReason() {
+    const cmdName = this.cmd.command.command_name
+    const args = this.cmd.command.arguments
+
+    if (cmdName === 'cache_limit') {
+      return 'command_name=cache_limit'
+    } else if (cmdName === 'tokenize' && args['normalizer'] === 'NormalizerAuto') {
+      return 'command_name=tokenize&normalizer=NormalizerAuto'
+    } else if (args['output_type'] && args['output_type'] !== 'json') {
+      return 'output_type!=json'
+    } else if (cmdName.match(/^query_log_flags_/)) {
+      return 'command_name=query_log_flags_*'
+    } else {
+      return undefined
+    }
+  }
+
+  private testLines() {
+    const lines: string[] = []
+    lines.push(`// ${this.testId}`)
+
+    if (this.cmd.command.command_name === 'load' && Array.isArray(this.args.values)) {
+      const vlines = this.valLines(this.args.values, 0)
+      vlines[0] = `const values${this.countStr} = ` + vlines[0]
+      lines.push(...vlines)
+    }
+
+    const alines = this.argsToLines(this.cmd, this.args)
+    alines[0] = `const r${this.countStr} = await groongar.${this.methodName(this.cmd)}(` + alines[0]
+    alines[alines.length - 1] += ')'
+    lines.push(...alines)
+
+    if (this.errorMassage) {
+      lines.push(`expect(r${this.countStr}.ok).toBe(false)`)
+      lines.push(`expect(r${this.countStr}.error).instanceOf(Error)`)
+      lines.push(
+        `if (r${this.countStr}.error) {`,
+        `  const errMsg = ${JSON.stringify(this.errorMassage)}`,
+        `  expect(r${this.countStr}.error.message.trim()).toBe(errMsg.trim())`,
+        '}'
+      )
+    } else {
+      lines.push(`expect(r${this.countStr}.ok).toBe(true)`)
+      lines.push(`expect(r${this.countStr}.error).toBeUndefined()`)
+      const res = getResponse(this.cmd.response)
+      const rlines = this.valLines([res] as any, 0)
+      rlines[0] = `const expected${this.countStr} = ` + rlines[0]
+      lines.push(...rlines)
+      lines.push(`if (r${this.countStr}.ok) {`)
+      if (this.cmd.command.command_name === 'object_inspect') {
+        lines.push(`  expect([fixObjectInspect(r${this.countStr}.value)]).toEqual(expected${this.countStr})`)
+      } else {
+        lines.push(`  expect([r${this.countStr}.value]).toEqual(expected${this.countStr})`)
+      }
+      lines.push('}')
+    }
+
+    return lines
+  }
+
+  private methodName(cmd: Command) {
+    const name = cmd.command.command_name
+      .split(/_/)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('')
+    return name.charAt(0).toLowerCase() + name.slice(1)
+  }
 
   private getCountStr(cmd: Command) {
     const count = cmd.count
     return count < 0 ? `_t${Math.abs(count)}` : count.toString()
   }
 
-  // buildArguments(cmd: Command) {
-  //   return this.parseArguments({}, cmd.command.arguments, cmd.command.command_name)
-  // }
+  private getTestId(cmd: Command, testPath: string) {
+    return `${testPath}:${cmd.count}`
+  }
 
   private parseArguments(ret: GroongarArgs, args: Record<string, string>, cmdName: string) {
     for (const key of Object.keys(args)) {
@@ -152,30 +311,14 @@ export class CommandConverter {
     if (Array.isArray(val)) {
       if (key === 'values' && cmd?.command.command_name === 'load') {
         return [`${'  '.repeat(indent)}${this.objLabel(key)}: values${this.getCountStr(cmd)},`]
-      } else {
-        const lines: string[] = []
-        lines.push(`${'  '.repeat(indent)}${this.objLabel(key)}: [`)
-        for (const v of val) {
-          //
-        }
-        lines.push(`${'  '.repeat(indent)}],`)
-        throw new Error('unexpected')
       }
-    } else if (typeof val === 'object') {
-      const lines: string[] = []
-      lines.push(`${'  '.repeat(indent)}${this.objLabel(key)}: {`)
-      for (const k of Object.keys(val)) {
-        const v = val[k]
-        lines.push(...this.objLines(cmd, k, v, indent + 1))
-      }
-      lines.push(`${'  '.repeat(indent)}},`)
-      return lines
-    } else if (typeof val === 'bigint') {
-      return [`${'  '.repeat(indent)}${this.objLabel(key)}: '${val.toString()}',`]
-    } else {
-      // string, number
-      return [`${'  '.repeat(indent)}${this.objLabel(key)}: ${JSON.stringify(val)},`]
     }
+
+    const vlines = this.valLines(val, indent)
+    const idxTail = vlines.length - 1
+    vlines[0] = `${'  '.repeat(indent)}${this.objLabel(key)}: ` + vlines[0]
+    vlines[idxTail] += ','
+    return vlines
   }
 
   private valLines(val: GroongarArgsVal, indent = 0) {
@@ -185,7 +328,7 @@ export class CommandConverter {
         const vlines = this.valLines(v, indent + 1)
         const idxTail = vlines.length - 1
         vlines[0] = '  '.repeat(indent + 1) + vlines[0]
-        vlines[idxTail] = vlines[idxTail] + ','
+        vlines[idxTail] += ','
         lines.push(...vlines)
       }
       lines.push(`${'  '.repeat(indent)}]`)
@@ -222,4 +365,16 @@ export function getErrorMessage(response?: Response): string | undefined {
   }
 
   return msg
+}
+
+export function getResponse(response?: Response): unknown {
+  let r = undefined
+
+  if (Array.isArray(response)) {
+    r = response[1]
+  } else if (typeof response === 'object') {
+    r = response.body
+  }
+
+  return r
 }

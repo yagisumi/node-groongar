@@ -1,10 +1,10 @@
-import { getErrorMessage, CommandConverter } from '@/command_converter'
+import { getErrorMessage, getResponse, CommandConverter } from '@/command_converter'
 import { Response } from '@/grntest_parser'
 import { parseCommand } from '@yagisumi/groonga-command'
 import { Command } from '@/grntest_parser'
 
 describe('command_converter', () => {
-  describe('getErrorMessage', () => {
+  describe('getErrorMessage/getResponse', () => {
     test('response1', () => {
       const res1: Response = [[[-22, 0, 0], '[column][create] nonexistent source: <nonexistent>'], false]
       const msg1 = getErrorMessage(res1)
@@ -14,6 +14,7 @@ describe('command_converter', () => {
       const res2: Response = [[0, 0, 0], true]
       const msg2 = getErrorMessage(res2)
       expect(msg2).toBeUndefined()
+      expect(getResponse(res1)).toEqual(false)
     })
 
     test('response3', () => {
@@ -37,6 +38,10 @@ describe('command_converter', () => {
       const msg1 = getErrorMessage(res1)
       expect(typeof msg1).toBe('string')
       expect(msg1).toBe(res1.header.error?.message)
+      expect(getResponse(res1)).toEqual({
+        n_loaded_records: 2,
+        loaded_ids: [1, 0, 2],
+      })
 
       const res2: Response = {
         header: { return_code: 0, start_time: 0, elapsed_time: 0 },
@@ -44,6 +49,7 @@ describe('command_converter', () => {
       }
       const msg2 = getErrorMessage(res2)
       expect(msg2).toBeUndefined()
+      expect(getResponse(res2)).toEqual({ n_loaded_records: 2 })
     })
   })
 
@@ -441,6 +447,90 @@ describe('command_converter', () => {
           ]
           expect(lines).toEqual(expected)
         }
+      }
+    })
+
+    test('testLines/load-values/1', () => {
+      const values = [
+        { _key: 'http://groonga.org/', title: 'Groonga' },
+        { _key: 'http://mroonga.org/', title: 'Mroonga' },
+      ]
+      const string = `load --table Bookmarks --values '${JSON.stringify(values)}'`
+      const command = parseCommand(string)
+      if (command) {
+        const cmd: Command = {
+          type: 'command',
+          command,
+          count: 1,
+          string,
+          response: [[0, 0.0, 0.0], 2],
+        }
+        const converter = new CommandConverter(cmd, 'test')
+        const expected = [
+          '// test:1',
+          'const values1 = [',
+          '  {',
+          '    _key: "http://groonga.org/",',
+          '    title: "Groonga",',
+          '  },',
+          '  {',
+          '    _key: "http://mroonga.org/",',
+          '    title: "Mroonga",',
+          '  },',
+          ']',
+          'const r1 = await groongar.load({',
+          '  table: "Bookmarks",',
+          '  values: values1,',
+          '})',
+          'expect(r1.ok).toBe(true)',
+          'expect(r1.error).toBeUndefined()',
+          'const expected1 = [',
+          '  2,',
+          ']',
+          'if (r1.ok) {',
+          '  expect([r1.value]).toEqual(expected1)',
+          '}',
+        ]
+        const lines = converter['testLines']()
+        // console.log(lines)
+        expect(lines).toEqual(expected)
+      }
+    })
+
+    test('testLines/error/1', () => {
+      const string = 'select Sites --filter "_key @ uri"'
+      const response: Response = [
+        [
+          [-22, 0.0, 0.0],
+          "invalid expression: can't use column as a value: <Sites.uri>: <#<expr\n  vars:{\n    $1:#<record:hash:Sites id:(no value)>\n  },\n ",
+        ],
+      ]
+      const command = parseCommand(string)
+      if (command) {
+        const cmd: Command = {
+          type: 'command',
+          command,
+          count: 1,
+          string,
+          response,
+        }
+        const converter = new CommandConverter(cmd, 'test')
+        const lines = converter['testLines']()
+        // console.log(lines)
+        const expected = [
+          '// test:1',
+          'const r1 = await groongar.select({',
+          '  filter: "_key @ uri",',
+          '  table: "Sites",',
+          '} as any)',
+          'expect(r1.ok).toBe(false)',
+          'expect(r1.error).instanceOf(Error)',
+          'if (r1.error) {',
+          `  const errMsg = "invalid expression: can't use column as a value: <Sites.uri>: <#<expr\\n  vars:{\\n    $1:#<record:hash:Sites id:(no value)>\\n  },\\n "`,
+          '  expect(r1.error.message.trim()).toBe(errMsg.trim())',
+          '}',
+        ]
+        expect(lines).toEqual(expected)
       }
     })
   })
