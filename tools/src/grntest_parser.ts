@@ -1,11 +1,30 @@
 import { GroongaCommand, parseCommand } from '@yagisumi/groonga-command'
 
+type Header1 = [number, number, number] | [[number, number, number], string]
+type Response1 = [Header1, unknown?]
+export type Response3 = {
+  header: {
+    return_code: number
+    start_time: number
+    elapsed_time: number
+    error?: {
+      message: string
+      function?: string
+      file?: string
+      line?: number
+    }
+  }
+  body: unknown
+}
+
+export type Response = string | Response3 | Response1
+
 export type Command = {
   type: 'command'
   string: string
   command: GroongaCommand
   count: number
-  response?: string | Record<string, unknown>
+  response?: Response
 }
 
 export type Pragma = {
@@ -281,7 +300,7 @@ export function parseGrnTest(grntest: string, hasResponse: boolean) {
           }
         }
 
-        let response: string | Record<string, unknown> | undefined = undefined
+        let response: Response | undefined = undefined
         if (hasResponse) {
           if (command.output_type === 'apache-arrow') {
             response = scanner.scanDumpResponse()
