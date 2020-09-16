@@ -12,6 +12,19 @@ export const ANY_TEST_MAP: Record<string, boolean> = {
   // 'reference/commands/io_flush:9': true,
 }
 
+export const SKIP_TEST_MAP: Record<string, string> = {
+  'suite/load/array/duplicated_id_key:4': "can't represent duplicated id",
+  'suite/load/array/duplicated_id_key:5': "can't represent duplicated id",
+  'suite/load/max/int64:4': "can't handle 64 bit integers",
+  'suite/load/max/uint64:4': "can't handle 64 bit integers",
+  'suite/index_column_diff/int64_vector:8': "can't handle 64 bit integers",
+  'suite/select/function/math_abs/uint64/max:5': "can't handle 64 bit integers",
+  'suite/select/filter/arithmetic_operation/unary_minus/uint64_over_int64_max:5': "can't handle 64 bit integers",
+  'suite/select/filter/arithmetic_operation/unary_minus/uint64:5': "can't handle 64 bit integers",
+  // 'reference/tutorial/search:4': 'random order',
+  // 'reference/tutorial/search:5': 'random order',
+}
+
 export class CommandConverter {
   cmd: Command
   testPath: string
@@ -23,8 +36,8 @@ export class CommandConverter {
   private args: GroongarArgs
   private withAny = false
   private testId: string
-  private skipReason?: string
-  private isolationReason?: string
+  skipReason?: string
+  isolationReason?: string
 
   constructor(cmd: Command, testPath: string) {
     this.cmd = cmd
@@ -40,7 +53,7 @@ export class CommandConverter {
 
   main() {
     this.gatherInfo()
-    return this.testLines
+    return this.testLines()
   }
 
   private gatherInfo() {
@@ -121,8 +134,11 @@ export class CommandConverter {
   }
 
   private getSkipReason() {
-    if (this.cmd.command.arguments['output_type'] === 'apache-arrow') {
-      return 'output_type=apache-arrow'
+    const output_type = this.cmd.command.arguments['output_type']
+    if (SKIP_TEST_MAP[this.testId]) {
+      return SKIP_TEST_MAP[this.testId]
+    } else if (output_type && output_type !== 'json') {
+      return 'output_type!=json'
     } else {
       return undefined
     }
@@ -156,33 +172,56 @@ export class CommandConverter {
     }
 
     const alines = this.argsToLines(this.cmd, this.args)
-    alines[0] = `const r${this.countStr} = await groongar.${this.methodName(this.cmd)}(` + alines[0]
+    if (this.cmd.count > 0) {
+      alines[0] = `const r${this.countStr} = await groongar.${this.methodName(this.cmd)}(` + alines[0]
+    } else {
+      alines[0] = `await groongar.${this.methodName(this.cmd)}(` + alines[0]
+    }
     alines[alines.length - 1] += ')'
     lines.push(...alines)
 
-    if (this.errorMassage) {
-      lines.push(`expect(r${this.countStr}.ok).toBe(false)`)
-      lines.push(`expect(r${this.countStr}.error).instanceOf(Error)`)
-      lines.push(
-        `if (r${this.countStr}.error) {`,
-        `  const errMsg = ${JSON.stringify(this.errorMassage)}`,
-        `  expect(r${this.countStr}.error.message.trim()).toBe(errMsg.trim())`,
-        '}'
-      )
-    } else {
-      lines.push(`expect(r${this.countStr}.ok).toBe(true)`)
-      lines.push(`expect(r${this.countStr}.error).toBeUndefined()`)
-      const res = getResponse(this.cmd.response)
-      const rlines = this.valLines([res] as any, 0)
-      rlines[0] = `const expected${this.countStr} = ` + rlines[0]
-      lines.push(...rlines)
-      lines.push(`if (r${this.countStr}.ok) {`)
-      if (this.cmd.command.command_name === 'object_inspect') {
-        lines.push(`  expect([fixObjectInspect(r${this.countStr}.value)]).toEqual(expected${this.countStr})`)
-      } else {
-        lines.push(`  expect([r${this.countStr}.value]).toEqual(expected${this.countStr})`)
+    if (this.cmd.count > 0) {
+      const skip = this.skipReason ? '// ' : ''
+      if (this.skipReason) {
+        lines.push(`// SKIP: ${this.skipReason}`)
       }
-      lines.push('}')
+
+      if (this.errorMassage) {
+        lines.push(`${skip}expect(r${this.countStr}.ok).toBe(false)`)
+        lines.push(`${skip}expect(r${this.countStr}.error).instanceOf(Error)`)
+        lines.push(
+          `if (r${this.countStr}.error) {`,
+          `  const errMsg = ${JSON.stringify(this.errorMassage)}`,
+          `  ${skip}expect(r${this.countStr}.error.message.trim()).toBe(errMsg.trim())`,
+          '}'
+        )
+      } else {
+        lines.push(`${skip}expect(r${this.countStr}.ok).toBe(true)`)
+        lines.push(`${skip}expect(r${this.countStr}.error).toBeUndefined()`)
+        const res = getResponse(this.cmd.response)
+
+        lines.push(`if (r${this.countStr}.ok) {`)
+        if (typeof res === 'string' && (this.cmd.command.command_name === 'dump' || res.startsWith('<?'))) {
+          const rlines = res.split(/\n/).map((line) => `    ${JSON.stringify(line)},`)
+          lines.push(`  const expected${this.countStr} = [`)
+          lines.push(...rlines)
+          lines.push('  ]')
+          lines.push(
+            // trim() in fixDump
+            `  ${skip}expect(fixDump(r${this.countStr}.value)).toEqual(expected${this.countStr}.join('\\n').trim())`
+          )
+        } else {
+          const rlines = this.valLines([res] as any, 1)
+          rlines[0] = `  const expected${this.countStr} = ` + rlines[0]
+          lines.push(...rlines)
+          if (this.cmd.command.command_name === 'object_inspect') {
+            lines.push(`  ${skip}expect([fixObjectInspect(r${this.countStr}.value)]).toEqual(expected${this.countStr})`)
+          } else {
+            lines.push(`  ${skip}expect([r${this.countStr}.value]).toEqual(expected${this.countStr})`)
+          }
+        }
+        lines.push('}')
+      }
     }
 
     return lines
@@ -333,6 +372,8 @@ export class CommandConverter {
       }
       lines.push(`${'  '.repeat(indent)}]`)
       return lines
+    } else if (val == null) {
+      return ['null']
     } else if (typeof val === 'object') {
       const lines: string[] = ['{']
       for (const k of Object.keys(val)) {
@@ -370,7 +411,10 @@ export function getErrorMessage(response?: Response): string | undefined {
 export function getResponse(response?: Response): unknown {
   let r = undefined
 
-  if (Array.isArray(response)) {
+  if (typeof response === 'string') {
+    // dump
+    return response
+  } else if (Array.isArray(response)) {
     r = response[1]
   } else if (typeof response === 'object') {
     r = response.body
