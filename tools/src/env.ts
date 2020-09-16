@@ -5,6 +5,7 @@ import rimraf from 'rimraf'
 import moment from 'moment'
 import sortObject from 'sortobject'
 import mkdirp from 'mkdirp'
+import prettier from 'prettier'
 
 export function path_normalize(path: string) {
   return path.replace(/\\/g, '/')
@@ -139,6 +140,18 @@ export class Env {
     const now = moment()
     const file = `${name}-${now.format('YYYYMMDD-hhmmss')}.txt`
 
-    fs.writeFileSync(path.join(this.report_dir, file), util.inspect(sortObject(obj), false, 2))
+    fs.writeFileSync(path.join(this.report_dir, file), util.inspect(sortObject(obj), false, null))
+  }
+
+  private prettierrc: any
+
+  prettier_format(src: string) {
+    if (this.prettierrc == null) {
+      this.prettierrc = JSON.parse(
+        fs.readFileSync(path.join(this.groongar_root_dir, '.prettierrc'), { encoding: 'utf8' })
+      )
+      this.prettierrc.parser = 'typescript'
+    }
+    return prettier.format(src, this.prettierrc)
   }
 }
