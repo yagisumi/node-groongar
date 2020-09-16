@@ -484,10 +484,10 @@ describe('command_converter', () => {
           '})',
           'expect(r1.ok).toBe(true)',
           'expect(r1.error).toBeUndefined()',
-          'const expected1 = [',
-          '  2,',
-          ']',
           'if (r1.ok) {',
+          '  const expected1 = [',
+          '    2,',
+          '  ]',
           '  expect([r1.value]).toEqual(expected1)',
           '}',
         ]
