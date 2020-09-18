@@ -9,6 +9,7 @@ interface GroongarArgs {
 export const FORCE_STRING_KEYS = ['script', 'query', 'filter', 'output_columns', 'string']
 export const ANY_TEST_MAP: Record<string, boolean> = {
   'suite/config_set/no_value:1': true,
+  'suite/response/jsonp:2': true,
   // 'reference/commands/io_flush:9': true,
 }
 
@@ -36,8 +37,9 @@ export class CommandConverter {
   private args: GroongarArgs
   private withAny = false
   private testId: string
-  skipReason?: string
-  isolationReason?: string
+  skipReason?: string // comment out expect
+  isolationReason?: string // run test separately
+  omitReason?: string // skip test
 
   constructor(cmd: Command, testPath: string) {
     this.cmd = cmd
@@ -59,6 +61,7 @@ export class CommandConverter {
   private gatherInfo() {
     this.skipReason = this.getSkipReason()
     this.isolationReason = this.getIsolationReason()
+    this.omitReason = this.getOmitReason()
 
     merge(this.report, {
       commands: {
@@ -71,7 +74,7 @@ export class CommandConverter {
 
     if (this.skipReason) {
       merge(this.report, {
-        skip_reason: {
+        skip_reasons: {
           [this.skipReason]: 1,
         },
       })
@@ -79,8 +82,16 @@ export class CommandConverter {
 
     if (this.isolationReason) {
       merge(this.report, {
-        isolation_reason: {
+        isolation_reasons: {
           [this.isolationReason]: 1,
+        },
+      })
+    }
+
+    if (this.omitReason) {
+      merge(this.report, {
+        omit_reasons: {
+          [this.omitReason]: 1,
         },
       })
     }
@@ -161,13 +172,31 @@ export class CommandConverter {
     }
   }
 
+  private getOmitReason() {
+    const cmdName = this.cmd.command.command_name
+
+    if (cmdName === 'thread_limit') {
+      return 'command_name=thread_limit'
+    } else if (cmdName === 'lock_acquire') {
+      return 'command_name=lock_acquire'
+    } else if (cmdName === 'lock_release') {
+      return 'command_name=lock_release'
+    }
+
+    return undefined
+  }
+
   private testLines() {
     const lines: string[] = []
     lines.push(`// ${this.testId}`)
 
     if (this.cmd.command.command_name === 'load' && Array.isArray(this.args.values)) {
       const vlines = this.valLines(this.args.values, 0)
-      vlines[0] = `const values${this.countStr} = ` + vlines[0]
+      if (Array.isArray(this.args.values) && this.args.values.length === 0) {
+        vlines[0] = `const values${this.countStr}: any[] = ` + vlines[0]
+      } else {
+        vlines[0] = `const values${this.countStr} = ` + vlines[0]
+      }
       lines.push(...vlines)
     }
 
@@ -188,7 +217,7 @@ export class CommandConverter {
 
       if (this.errorMassage) {
         lines.push(`${skip}expect(r${this.countStr}.ok).toBe(false)`)
-        lines.push(`${skip}expect(r${this.countStr}.error).instanceOf(Error)`)
+        lines.push(`${skip}expect(r${this.countStr}.error).toBeInstanceOf(Error)`)
         lines.push(
           `if (r${this.countStr}.error) {`,
           `  const errMsg = ${JSON.stringify(this.errorMassage)}`,
@@ -208,7 +237,7 @@ export class CommandConverter {
           lines.push('  ]')
           lines.push(
             // trim() in fixDump
-            `  ${skip}expect(fixDump(r${this.countStr}.value)).toEqual(expected${this.countStr}.join('\\n').trim())`
+            `  ${skip}expect(r${this.countStr}.value.trim()).toEqual(expected${this.countStr}.join('\\n').trim())`
           )
         } else {
           const rlines = this.valLines([res] as any, 1)
@@ -216,6 +245,10 @@ export class CommandConverter {
           lines.push(...rlines)
           if (this.cmd.command.command_name === 'object_inspect') {
             lines.push(`  ${skip}expect([fixObjectInspect(r${this.countStr}.value)]).toEqual(expected${this.countStr})`)
+          } else if (['column_list', 'object_list', 'table_list'].includes(this.cmd.command.command_name)) {
+            lines.push(
+              `  ${skip}expect([fixDBPath(r${this.countStr}.value, db_path)]).toEqual(expected${this.countStr})`
+            )
           } else {
             lines.push(`  ${skip}expect([r${this.countStr}.value]).toEqual(expected${this.countStr})`)
           }
