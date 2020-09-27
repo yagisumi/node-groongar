@@ -1476,6 +1476,7 @@ export declare namespace types {
     compress: null | 'zlib' | 'lz4' | 'zstd'
     section: boolean
     weight: boolean
+    weight_float32?: boolean // v10.0.3
     position: boolean
     sources: any[]
     indexes: Array<SchemaIndex>
@@ -2028,6 +2029,38 @@ export declare namespace types {
          * Specifies the name of table or column.
          */
         target_name: string
+      }
+      ret: retMap<true>
+    }
+  }
+
+  interface CommandMap {
+    reference_acquire: {
+      opts: CommonOptions & {
+        /**
+         * Specifies a target object name. Target object is one of database, table or column.
+         */
+        target_name?: string
+        /**
+         * Specifies whether child objects of the target object are also target objects.
+         */
+        recursive?: 'yes' | 'no' | 'dependent'
+      }
+      ret: retMap<true>
+    }
+  }
+
+  interface CommandMap {
+    reference_release: {
+      opts: CommonOptions & {
+        /**
+         * Specifies a target object name. Target object is one of database, table or column.
+         */
+        target_name?: string
+        /**
+         * Specifies whether child objects of the target object are also target objects.
+         */
+        recursive?: 'yes' | 'no' | 'dependent'
       }
       ret: retMap<true>
     }
