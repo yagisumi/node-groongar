@@ -1,15 +1,15 @@
-import NodeEnvironment from 'jest-environment-node'
 import { Config } from '@jest/types'
-import { setEnv, deleteEnv, mkdir, rimraf, exists, copyFile, getGroongaPath } from './funcs'
+import { getGroongaPath } from './funcs'
 import { SetupConfig, TestEnv } from './types'
 import { createClient, GroongaStdioClient } from '@yagisumi/groonga-stdio-client'
+import { BaseEnvironment } from './env_base'
 
 type StdioTestEnv = {
   client: GroongaStdioClient
   config: SetupConfig
 }
 
-function setup(config: SetupConfig): Promise<TestEnv> {
+function setupClient(config: SetupConfig): Promise<TestEnv> {
   return new Promise((resolve) => {
     const client = createClient(config.db_path, { groongaPath: getGroongaPath() })
     const env: StdioTestEnv = {
@@ -20,7 +20,7 @@ function setup(config: SetupConfig): Promise<TestEnv> {
   })
 }
 
-function teardown(env: StdioTestEnv): Promise<void> {
+function teardownClient(env: StdioTestEnv): Promise<void> {
   return new Promise((resolve) => {
     try {
       env.client.command('quit', () => {
@@ -37,18 +37,12 @@ function teardown(env: StdioTestEnv): Promise<void> {
   })
 }
 
-export default class StdioEnvironment extends NodeEnvironment {
+export default class StdioEnvironment extends BaseEnvironment {
   constructor(config: Config.ProjectConfig) {
     super(config)
     const g = this.global as any
-    g.setEnv = setEnv
-    g.deleteEnv = deleteEnv
-    g.mkdir = mkdir
-    g.rimraf = rimraf
-    g.exists = exists
-    g.copyFile = copyFile
-    g.setup = setup
-    g.teardown = teardown
+    g.setupClient = setupClient
+    g.teardownClient = teardownClient
     g.clientInterface = 'stdio'
   }
 }

@@ -27,12 +27,12 @@ describe('test', () => {
     if (env) {
       const tmp = env
       env = undefined as any
-      return teardown(tmp)
+      return teardownClient(tmp)
     }
   })
 
   test('cache_limit', async () => {
-    env = await setup({
+    env = await setupClient({
       db_path: path.join(db_dir, 'tmp.cache_limit.db'),
     })
     const r_grngr = createGroongar(env.client)

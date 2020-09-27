@@ -1,15 +1,14 @@
-import NodeEnvironment from 'jest-environment-node'
 import { Config } from '@jest/types'
-import { setEnv, deleteEnv, mkdir, rimraf, exists, copyFile } from './funcs'
 import { SetupConfig, TestEnv } from './types'
 import { Database } from 'nroonga'
+import { BaseEnvironment } from './env_base'
 
 type NroongaTestEnv = {
   client: Database
   config: SetupConfig
 }
 
-function setup(config: SetupConfig): Promise<TestEnv> {
+function setupClient(config: SetupConfig): Promise<TestEnv> {
   return new Promise((resolve) => {
     const client = new Database(config.db_path)
     const env: NroongaTestEnv = {
@@ -20,7 +19,7 @@ function setup(config: SetupConfig): Promise<TestEnv> {
   })
 }
 
-function teardown(env: NroongaTestEnv): Promise<void> {
+function teardownClient(env: NroongaTestEnv): Promise<void> {
   return new Promise((resolve) => {
     try {
       env.client.close()
@@ -31,18 +30,12 @@ function teardown(env: NroongaTestEnv): Promise<void> {
   })
 }
 
-export default class NroongaEnvironment extends NodeEnvironment {
+export default class NroongaEnvironment extends BaseEnvironment {
   constructor(config: Config.ProjectConfig) {
     super(config)
     const g = this.global as any
-    g.setEnv = setEnv
-    g.deleteEnv = deleteEnv
-    g.mkdir = mkdir
-    g.rimraf = rimraf
-    g.exists = exists
-    g.copyFile = copyFile
-    g.setup = setup
-    g.teardown = teardown
+    g.setupClient = setupClient
+    g.teardownClient = teardownClient
     g.clientInterface = 'nroonga'
   }
 }

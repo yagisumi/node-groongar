@@ -1,11 +1,11 @@
-import NodeEnvironment from 'jest-environment-node'
 import { Config } from '@jest/types'
-import { setEnv, deleteEnv, mkdir, rimraf, exists, copyFile, getGroongaPath } from './funcs'
+import { getGroongaPath } from './funcs'
 import { SetupConfig, TestEnv } from './types'
 import { createClient, GroongaHttpClient } from '@yagisumi/groonga-http-client'
 import axios from 'axios'
 import getPort from 'get-port'
 import child_process from 'child_process'
+import { BaseEnvironment } from './env_base'
 
 type HttpTestEnv = {
   client: GroongaHttpClient
@@ -15,7 +15,7 @@ type HttpTestEnv = {
 
 const groonga = getGroongaPath()
 
-function setup(config: SetupConfig): Promise<TestEnv> {
+function setupClient(config: SetupConfig): Promise<TestEnv> {
   return new Promise((resolve, reject) => {
     getPort()
       .then((port) => {
@@ -59,7 +59,7 @@ function setup(config: SetupConfig): Promise<TestEnv> {
   })
 }
 
-function teardown(env: HttpTestEnv): Promise<void> {
+function teardownClient(env: HttpTestEnv): Promise<void> {
   return new Promise((resolve) => {
     try {
       env.client.command('shutdown', () => {})
@@ -77,18 +77,12 @@ function teardown(env: HttpTestEnv): Promise<void> {
   })
 }
 
-export default class StdioEnvironment extends NodeEnvironment {
+export default class StdioEnvironment extends BaseEnvironment {
   constructor(config: Config.ProjectConfig) {
     super(config)
     const g = this.global as any
-    g.setEnv = setEnv
-    g.deleteEnv = deleteEnv
-    g.mkdir = mkdir
-    g.rimraf = rimraf
-    g.exists = exists
-    g.copyFile = copyFile
-    g.setup = setup
-    g.teardown = teardown
+    g.setupClient = setupClient
+    g.teardownClient = teardownClient
     g.clientInterface = 'http'
   }
 }

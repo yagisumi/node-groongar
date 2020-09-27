@@ -27,12 +27,12 @@ describe('test', () => {
     if (env) {
       const tmp = env
       env = undefined as any
-      return teardown(tmp)
+      return teardownClient(tmp)
     }
   })
 
   test('load_v3', async () => {
-    env = await setup({
+    env = await setupClient({
       db_path: path.join(db_dir, 'tmp.load_v3.db'),
     })
     const r_grngr = createGroongar(env.client)
