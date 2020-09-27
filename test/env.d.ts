@@ -19,5 +19,26 @@ interface TestEnv {
   config: SetupConfig
 }
 
-declare function setup(config: SetupConfig): Promise<TestEnv>
-declare function teardown(env: TestEnv): Promise<void>
+declare function setupClient(config: SetupConfig): Promise<TestEnv>
+declare function teardownClient(env: TestEnv): Promise<void>
+
+declare function copyPath(src: string, dest: string): void
+
+declare function generateSeries(
+  from: number,
+  to: number,
+  value_f: (i: number) => any,
+  callback: (values: any[]) => Promise<any>
+): Promise<void>
+
+declare function sleep(msec: number): Promise<void>
+
+declare function fixDBPath(actual: unknown, db_path: string | RegExp): unknown
+
+declare function fixObjectInspect(obj: unknown): unknown
+
+// import type { PlatformPath } from 'path'
+interface Path {
+  join(a: string, b: string): string
+}
+declare const Path: Path
