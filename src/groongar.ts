@@ -1756,6 +1756,62 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
     })
   }
 
+  /**
+   * `reference_acquire` acquires a reference of target objects.
+   */
+  referenceAcquire<V extends 1 | 2 | 3>(
+    options?: opts<'reference_acquire'> & CommandVersion<V>
+  ): Promise<Result<ret<'reference_acquire', V>>>
+  referenceAcquire<V extends 1 | 2 | 3 = 1>(
+    options?: opts<'reference_acquire'>
+  ): Promise<Result<ret<'reference_acquire', V>>>
+  referenceAcquire<V extends 1 | 2 | 3>(
+    options?: opts<'reference_acquire'> | (opts<'reference_acquire'> & CommandVersion<V>)
+  ): Promise<Result<ret<'reference_acquire', V>>> {
+    return new Promise((resolve) => {
+      try {
+        const opts = this.mergeOptions('reference_acquire', options)
+        this.client.command('reference_acquire', opts, (err, data) => {
+          if (err) {
+            resolve(ERR(err))
+          } else {
+            resolve(OK(data))
+          }
+        })
+      } catch (err) {
+        resolve(ERR(err))
+      }
+    })
+  }
+
+  /**
+   * `reference_release` releases a reference of target objects acquired by reference_acquire.
+   */
+  referenceRelease<V extends 1 | 2 | 3>(
+    options?: opts<'reference_release'> & CommandVersion<V>
+  ): Promise<Result<ret<'reference_release', V>>>
+  referenceRelease<V extends 1 | 2 | 3 = 1>(
+    options?: opts<'reference_release'>
+  ): Promise<Result<ret<'reference_release', V>>>
+  referenceRelease<V extends 1 | 2 | 3>(
+    options?: opts<'reference_release'> | (opts<'reference_release'> & CommandVersion<V>)
+  ): Promise<Result<ret<'reference_release', V>>> {
+    return new Promise((resolve) => {
+      try {
+        const opts = this.mergeOptions('reference_release', options)
+        this.client.command('reference_release', opts, (err, data) => {
+          if (err) {
+            resolve(ERR(err))
+          } else {
+            resolve(OK(data))
+          }
+        })
+      } catch (err) {
+        resolve(ERR(err))
+      }
+    })
+  }
+
   // </commands>
 }
 
