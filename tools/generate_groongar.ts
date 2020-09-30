@@ -264,4 +264,5 @@ const env: Env = {
   path_groongar_ts: path.resolve(__dirname, '../src/groongar.ts'),
 }
 
+console.log('generate src/groongar.ts')
 generateGronngar(env)
