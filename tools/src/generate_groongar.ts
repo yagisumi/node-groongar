@@ -117,6 +117,12 @@ const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED',
     CommonVers,
     '`truncate` command deletes all records from specified table or all values from specified column.',
   ],
+  reference_acquire: [OPTIONAL, CommonVers, '`reference_acquire` acquires a reference of target objects.'],
+  reference_release: [
+    OPTIONAL,
+    CommonVers,
+    '`reference_release` releases a reference of target objects acquired by reference_acquire.',
+  ],
 }
 
 function read_groongar_ts(path_groongar_ts: string) {

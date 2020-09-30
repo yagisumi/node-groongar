@@ -6,6 +6,7 @@ import { parseGrnTest, GrnTestElem, Command, Export, Pragma, Comment } from './g
 import { CommandConverter } from './command_converter'
 import fs from 'fs'
 import mkdirp from 'mkdirp'
+import { testing as t } from './testing'
 
 type TestFileInfo = {
   base: string
@@ -421,18 +422,19 @@ class GrnTestConverter {
     return `
       import path from 'path'
       import { createGroongar } from '@/groongar'
+      ${t.import}
 
       const db_directory = path.join(__dirname, 'tmp.${basename}')
       const db_path = path.join(db_directory, 'tmp.${basename}.db')
       let env: TestEnv
 
-      describe('test', () => {
-        beforeAll(() => {
+      describe('grntest', () => {
+        ${t.beforeAll}(() => {
           rimraf(db_directory)
           mkdir(db_directory)
         })
 
-        afterAll(() => {
+        ${t.afterAll}(() => {
           return new Promise((resolve) => {
             setTimeout(() => {
               rimraf(db_directory)
@@ -449,13 +451,13 @@ class GrnTestConverter {
           if (env) {
             const tmp = env
             env = undefined as any
-            return teardown(tmp)
+            return teardownClient(tmp)
           }
         })
 
         ${this.omitReasonsLines().join('\n')}
-        test${this.shouldOmit() ? '.skip' : ''}('${basename}', async () => {
-          env = await setup({
+        it${this.shouldOmit() ? '.skip' : ''}('${basename}', async () => {
+          env = await setupClient({
             db_path: db_path,
           })
           const r_grngr = createGroongar(env.client)
