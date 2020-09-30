@@ -27,13 +27,7 @@
     "prettier:fix": "prettier --write \"**/*.{ts,js,json}\"",
     "eslint": "eslint \"**/*.{js,ts}\"",
     "prepack": "run-s build test",
-    "tools:build": "tsc -p tools/src",
-    "tools:test": "jest --config tools/jest.config.js",
-    "tools:usage": "node tools/lib/tools.js",
-    "tools:init": "node tools/lib/tools.js init",
-    "tools:example": "node tools/lib/tools.js example",
-    "tools:convert": "node tools/lib/tools.js convert",
-    "tools:groongar": "node tools/lib/tools.js groongar"
+    "tools:groongar": "ts-node tools/generate_groongar.ts"
   },
   "author": "yagisumi",
   "repository": "github:yagisumi/node-groongar",

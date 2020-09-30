@@ -1,7 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 import heredoc from 'heredocument'
-import { Env } from './env'
 import prettier from 'prettier'
 
 const OPTIONAL = 'OPTIONAL'
@@ -254,3 +253,15 @@ export function generateGronngar(env: Env) {
   const source = [template.pre, '', methods, template.post].join('\n')
   fs.writeFileSync(env.path_groongar_ts, format(env, source))
 }
+
+type Env = {
+  groongar_root_dir: string
+  path_groongar_ts: string
+}
+
+const env: Env = {
+  groongar_root_dir: path.resolve(__dirname, '..'),
+  path_groongar_ts: path.resolve(__dirname, '../src/groongar.ts'),
+}
+
+generateGronngar(env)
