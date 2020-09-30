@@ -15,4 +15,5 @@ node_modules/
 /tools/report/
 /test/lib/
 /test/grntest/
+/report.*
 tmp.*
