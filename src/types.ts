@@ -1,4 +1,4 @@
-type CompletionList<T> = T | (string & unknown)
+type CompletionList<T> = T | (string & { _?: never })
 type retMap<T> = {
   1: T
   2: T
@@ -43,6 +43,7 @@ export declare namespace types {
     | 'Int64'
     | 'UInt64'
     | 'Float'
+    | 'Float32'
     | 'Time'
     | 'TokyoGeoPoint'
     | 'WGS84GeoPoint'
@@ -174,6 +175,11 @@ export declare namespace types {
          * Specifies index target columns. You can specify one or more columns to the source parameter.
          */
         source?: string
+        /**
+         * Specifies a path for storing a column.
+         * @since groonga v10.0.7
+         */
+        path?: string
       }
       ret: retMap<true>
     }
@@ -448,6 +454,11 @@ export declare namespace types {
          * @since 7.0.5
          */
         sort_hash_table?: YesNo
+        /**
+         * You can customize the output whether it contains paths or not.
+         * @since 10.0.7
+         */
+        dump_paths?: YesNo
       }
       ret: retMap<string>
     }
@@ -1845,6 +1856,11 @@ export declare namespace types {
          * Specifies token filters separated by `,`. Token filters are used to process tokens.
          */
         token_filters?: CompletionList<TokenFilter>
+        /**
+         * Specifies a path for storing a table.
+         * @since 10.0.7
+         */
+        path?: string
       }
       ret: retMap<true>
     }
@@ -2065,4 +2081,8 @@ export declare namespace types {
       ret: retMap<true>
     }
   }
+
+  type OptsTableCreateArray = Omit<opts<'table_create'>, 'flags'> & { flags: 'TABLE_NO_KEY' }
+  type OptsTableCreateNonArray = Omit<opts<'table_create'>, 'key_type'> &
+    Required<Pick<opts<'table_create'>, 'key_type'>>
 }

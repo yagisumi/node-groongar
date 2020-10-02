@@ -10,6 +10,8 @@ import { types, CommandOptions } from './types'
 import opts = types.opts
 import ret = types.ret
 import CommandVersion = types.CommandVersion
+import OptsTableCreateArray = types.OptsTableCreateArray
+import OptsTableCreateNonArray = types.OptsTableCreateNonArray
 
 type CommandCallback = (err: Error | undefined, data: any) => void
 
@@ -1530,11 +1532,19 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
    * `table_create` creates a new table in the current database.
    */
   tableCreate<V extends 1 | 2 | 3>(
-    options: opts<'table_create'> & CommandVersion<V>
+    options: OptsTableCreateNonArray & CommandVersion<V>
   ): Promise<Result<ret<'table_create', V>>>
-  tableCreate<V extends 1 | 2 | 3 = 1>(options: opts<'table_create'>): Promise<Result<ret<'table_create', V>>>
+  tableCreate<V extends 1 | 2 | 3 = 1>(options: OptsTableCreateNonArray): Promise<Result<ret<'table_create', V>>>
   tableCreate<V extends 1 | 2 | 3>(
-    options: opts<'table_create'> | (opts<'table_create'> & CommandVersion<V>)
+    options: OptsTableCreateArray & CommandVersion<V>
+  ): Promise<Result<ret<'table_create', V>>>
+  tableCreate<V extends 1 | 2 | 3 = 1>(options: OptsTableCreateArray): Promise<Result<ret<'table_create', V>>>
+  tableCreate<V extends 1 | 2 | 3>(
+    options:
+      | OptsTableCreateArray
+      | OptsTableCreateNonArray
+      | (OptsTableCreateArray & CommandVersion<V>)
+      | (OptsTableCreateNonArray & CommandVersion<V>)
   ): Promise<Result<ret<'table_create', V>>> {
     return new Promise((resolve) => {
       try {

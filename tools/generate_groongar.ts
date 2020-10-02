@@ -8,7 +8,8 @@ const REQUIRED = 'REQUIRED'
 type Vers = { vers: string; default: number }
 const CommonVers = { vers: '1 | 2 | 3', default: 1 }
 const FLATTEN_REQUIRED = 'FLATTEN_REQUIRED'
-const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED', Vers, string] } = {
+const TABLE_CREATE = 'TABLE_CREATE' // <= REQUIRED
+const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED' | 'TABLE_CREATE', Vers, string] } = {
   cache_limit: [OPTIONAL, CommonVers, '`cache_limit` gets or sets the max number of query cache entries.'],
   check: [REQUIRED, CommonVers, '`check` displays the state of the object.'],
   clearlock: [
@@ -103,7 +104,7 @@ const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED',
   status: [OPTIONAL, CommonVers, '`status` returns the current status of the context that processes the request.'],
   suggest: [REQUIRED, CommonVers, 'suggest returns completion, correction and/or suggestion for a query.'],
   table_copy: [REQUIRED, CommonVers, '`table_copy` copies a table.'],
-  table_create: [REQUIRED, CommonVers, '`table_create` creates a new table in the current database.'],
+  table_create: [TABLE_CREATE, CommonVers, '`table_create` creates a new table in the current database.'],
   table_list: [OPTIONAL, CommonVers, '`table_list` lists the tables defined in the current database.'],
   table_remove: [REQUIRED, CommonVers, '`table_remove` removes a table and its columns.'],
   table_rename: [REQUIRED, CommonVers, '`table_rename` command renames a table.'],
@@ -224,6 +225,46 @@ function generate_flatten_method(cmd: string, vers: Vers, desc: string) {
   `
 }
 
+function generate_table_create(vers: Vers, desc: string) {
+  return heredoc`
+  ${comment(desc)}
+  tableCreate<V extends ${vers.vers}>(
+    options: OptsTableCreateNonArray & CommandVersion<V>
+  ): Promise<Result<ret<'table_create', V>>>
+  tableCreate<V extends ${
+    vers.vers
+  } = ${vers.default.toString()}>(options: OptsTableCreateNonArray): Promise<Result<ret<'table_create', V>>>
+  tableCreate<V extends ${vers.vers}>(
+    options: OptsTableCreateArray & CommandVersion<V>
+  ): Promise<Result<ret<'table_create', V>>>
+  tableCreate<V extends ${
+    vers.vers
+  } = ${vers.default.toString()}>(options: OptsTableCreateArray): Promise<Result<ret<'table_create', V>>>
+  tableCreate<V extends ${vers.vers}>(
+    options:
+      | OptsTableCreateArray
+      | OptsTableCreateNonArray
+      | (OptsTableCreateArray & CommandVersion<V>)
+      | (OptsTableCreateNonArray & CommandVersion<V>)
+  ): Promise<Result<ret<'table_create', V>>> {
+    return new Promise((resolve) => {
+      try {
+        const opts = this.mergeOptions('table_create', options)
+        this.client.command('table_create', opts, (err, data) => {
+          if (err) {
+            resolve(ERR(err))
+          } else {
+            resolve(OK(data))
+          }
+        })
+      } catch (err) {
+        resolve(ERR(err))
+      }
+    })
+  }
+  `
+}
+
 function generate_methods() {
   const methods: string[] = []
 
@@ -235,6 +276,8 @@ function generate_methods() {
       methods.push(generate_method(cmd, vers, desc, false))
     } else if (kind === 'FLATTEN_REQUIRED') {
       methods.push(generate_flatten_method(cmd, vers, desc))
+    } else if (kind === 'TABLE_CREATE') {
+      methods.push(generate_table_create(vers, desc))
     }
   })
 
