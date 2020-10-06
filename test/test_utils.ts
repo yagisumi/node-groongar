@@ -1,8 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 
-export function mkdir(path: string) {
-  fs.mkdirSync(path)
+export function mkdir(dir: string) {
+  fs.mkdirSync(dir)
 }
 
 export function rimraf(dir_path: string) {
@@ -20,7 +20,7 @@ export function rimraf(dir_path: string) {
 }
 
 export function getGroongaPath() {
-  if (process.platform === 'win32' && process.env.GROONGA_PATH) {
+  if (process.platform === 'win32' && process.env.GROONGA_PATH != null) {
     return path.join(process.env.GROONGA_PATH, 'bin/groonga.exe')
   }
   return 'groonga'
