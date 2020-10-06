@@ -12,6 +12,9 @@
   "unpkg": "umd/groongar.js",
   "scripts": {
     "test": "run-s prettier:check eslint test:build test:jest:nroonga",
+    "prettier:check": "prettier --check \"**/*.{ts,js,json}\"",
+    "prettier:fix": "prettier --write \"**/*.{ts,js,json}\"",
+    "eslint": "eslint \"{src,test,tools}/**/*.{js,ts}\"",
     "test-ci": "run-s prettier:check eslint test:build test:mocha:http test:mocha:stdio test:mocha:nroonga:coverage",
     "test:build": "tsc -p test/src",
     "test:jest:nroonga": "jest --testEnvironment=./test/lib/env_nroonga.js",
@@ -27,9 +30,6 @@
     "build:mjs": "rollup -c -f es -o ./lib/groongar.mjs",
     "build:umd": "rollup -c rollup.config.umd.js",
     "build:d_ts": "tsc -p src -d --emitDeclarationOnly --outDir ./lib",
-    "prettier:check": "prettier --check \"**/*.{ts,js,json}\"",
-    "prettier:fix": "prettier --write \"**/*.{ts,js,json}\"",
-    "eslint": "eslint \"{src,test,tools}/**/*.{js,ts}\"",
     "prepack": "run-s build test",
     "tools:groongar": "ts-node tools/generate_groongar.ts"
   },
