@@ -26,7 +26,7 @@
     "build:d_ts": "tsc -p src -d --emitDeclarationOnly --outDir ./lib",
     "prettier:check": "prettier --check \"**/*.{ts,js,json}\"",
     "prettier:fix": "prettier --write \"**/*.{ts,js,json}\"",
-    "eslint": "eslint \"**/*.{js,ts}\"",
+    "eslint": "eslint \"{src,test,tools}/**/*.{js,ts}\"",
     "prepack": "run-s build test",
     "tools:groongar": "ts-node tools/generate_groongar.ts"
   },

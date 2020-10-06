@@ -1,6 +1,8 @@
 import { types, CommandOptions } from './types'
 
-export type OptionsMap = { [key in keyof types.CommandMap]?: Partial<types.CommandMap[key]['opts']> }
+export type OptionsMap = {
+  [key in keyof types.CommandMap]?: Partial<types.CommandMap[key]['opts']>
+}
 
 type Options = {
   defaultOptionBase: CommandOptions

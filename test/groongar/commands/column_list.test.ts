@@ -57,7 +57,9 @@ describe('test', () => {
       if (Array.isArray(r2.value)) {
         expect(r2.value.length).toBe(4)
         expect(r2.value[1][1]).toBe('_key')
-        expect([r2.value[2][1], r2.value[3][1]].sort()).toEqual([info1.column1, info1.column2].sort())
+        expect([r2.value[2][1], r2.value[3][1]].sort()).toEqual(
+          [info1.column1, info1.column2].sort()
+        )
       }
     }
   })

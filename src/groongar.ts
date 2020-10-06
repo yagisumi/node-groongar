@@ -37,7 +37,10 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
     this.overwriteOptionMap = opts.overwriteOptionMap
   }
 
-  protected mergeOptions(command: keyof types.CommandMap, options?: CommandOptions): CommandOptions {
+  protected mergeOptions(
+    command: keyof types.CommandMap,
+    options?: CommandOptions
+  ): CommandOptions {
     return {
       ...(this.defaultOptionMap[command] ?? this.defaultOptionBase),
       ...options,
@@ -58,7 +61,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   cacheLimit<V extends 1 | 2 | 3>(
     options?: Opts<'cache_limit'> & CommandVersion<V>
   ): Promise<Result<Ret<'cache_limit', V>>>
-  cacheLimit<V extends 1 | 2 | 3 = 1>(options?: Opts<'cache_limit'>): Promise<Result<Ret<'cache_limit', V>>>
+  cacheLimit<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'cache_limit'>
+  ): Promise<Result<Ret<'cache_limit', V>>>
   cacheLimit<V extends 1 | 2 | 3>(
     options?: Opts<'cache_limit'> | (Opts<'cache_limit'> & CommandVersion<V>)
   ): Promise<Result<Ret<'cache_limit', V>>> {
@@ -81,7 +86,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `check` displays the state of the object.
    */
-  check<V extends 1 | 2 | 3>(options: Opts<'check'> & CommandVersion<V>): Promise<Result<Ret<'check', V>>>
+  check<V extends 1 | 2 | 3>(
+    options: Opts<'check'> & CommandVersion<V>
+  ): Promise<Result<Ret<'check', V>>>
   check<V extends 1 | 2 | 3 = 1>(options: Opts<'check'>): Promise<Result<Ret<'check', V>>>
   check<V extends 1 | 2 | 3>(
     options: Opts<'check'> | (Opts<'check'> & CommandVersion<V>)
@@ -106,8 +113,12 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
    * `clearlock` releases the lock set on the object.
    * @deprecated Use `lock_clear` instead.
    */
-  clearlock<V extends 1 | 2 | 3>(options: Opts<'clearlock'> & CommandVersion<V>): Promise<Result<Ret<'clearlock', V>>>
-  clearlock<V extends 1 | 2 | 3 = 1>(options: Opts<'clearlock'>): Promise<Result<Ret<'clearlock', V>>>
+  clearlock<V extends 1 | 2 | 3>(
+    options: Opts<'clearlock'> & CommandVersion<V>
+  ): Promise<Result<Ret<'clearlock', V>>>
+  clearlock<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'clearlock'>
+  ): Promise<Result<Ret<'clearlock', V>>>
   clearlock<V extends 1 | 2 | 3>(
     options: Opts<'clearlock'> | (Opts<'clearlock'> & CommandVersion<V>)
   ): Promise<Result<Ret<'clearlock', V>>> {
@@ -133,7 +144,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   columnCopy<V extends 1 | 2 | 3>(
     options: Opts<'column_copy'> & CommandVersion<V>
   ): Promise<Result<Ret<'column_copy', V>>>
-  columnCopy<V extends 1 | 2 | 3 = 1>(options: Opts<'column_copy'>): Promise<Result<Ret<'column_copy', V>>>
+  columnCopy<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'column_copy'>
+  ): Promise<Result<Ret<'column_copy', V>>>
   columnCopy<V extends 1 | 2 | 3>(
     options: Opts<'column_copy'> | (Opts<'column_copy'> & CommandVersion<V>)
   ): Promise<Result<Ret<'column_copy', V>>> {
@@ -159,7 +172,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   columnCreate<V extends 1 | 2 | 3>(
     options: Opts<'column_create'> & CommandVersion<V>
   ): Promise<Result<Ret<'column_create', V>>>
-  columnCreate<V extends 1 | 2 | 3 = 1>(options: Opts<'column_create'>): Promise<Result<Ret<'column_create', V>>>
+  columnCreate<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'column_create'>
+  ): Promise<Result<Ret<'column_create', V>>>
   columnCreate<V extends 1 | 2 | 3>(
     options: Opts<'column_create'> | (Opts<'column_create'> & CommandVersion<V>)
   ): Promise<Result<Ret<'column_create', V>>> {
@@ -185,7 +200,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   columnList<V extends 1 | 2 | 3>(
     options: Opts<'column_list'> & CommandVersion<V>
   ): Promise<Result<Ret<'column_list', V>>>
-  columnList<V extends 1 | 2 | 3 = 1>(options: Opts<'column_list'>): Promise<Result<Ret<'column_list', V>>>
+  columnList<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'column_list'>
+  ): Promise<Result<Ret<'column_list', V>>>
   columnList<V extends 1 | 2 | 3>(
     options: Opts<'column_list'> | (Opts<'column_list'> & CommandVersion<V>)
   ): Promise<Result<Ret<'column_list', V>>> {
@@ -211,7 +228,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   columnRemove<V extends 1 | 2 | 3>(
     options: Opts<'column_remove'> & CommandVersion<V>
   ): Promise<Result<Ret<'column_remove', V>>>
-  columnRemove<V extends 1 | 2 | 3 = 1>(options: Opts<'column_remove'>): Promise<Result<Ret<'column_remove', V>>>
+  columnRemove<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'column_remove'>
+  ): Promise<Result<Ret<'column_remove', V>>>
   columnRemove<V extends 1 | 2 | 3>(
     options: Opts<'column_remove'> | (Opts<'column_remove'> & CommandVersion<V>)
   ): Promise<Result<Ret<'column_remove', V>>> {
@@ -237,7 +256,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   columnRename<V extends 1 | 2 | 3>(
     options: Opts<'column_rename'> & CommandVersion<V>
   ): Promise<Result<Ret<'column_rename', V>>>
-  columnRename<V extends 1 | 2 | 3 = 1>(options: Opts<'column_rename'>): Promise<Result<Ret<'column_rename', V>>>
+  columnRename<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'column_rename'>
+  ): Promise<Result<Ret<'column_rename', V>>>
   columnRename<V extends 1 | 2 | 3>(
     options: Opts<'column_rename'> | (Opts<'column_rename'> & CommandVersion<V>)
   ): Promise<Result<Ret<'column_rename', V>>> {
@@ -263,7 +284,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   configDelete<V extends 1 | 2 | 3>(
     options: Opts<'config_delete'> & CommandVersion<V>
   ): Promise<Result<Ret<'config_delete', V>>>
-  configDelete<V extends 1 | 2 | 3 = 1>(options: Opts<'config_delete'>): Promise<Result<Ret<'config_delete', V>>>
+  configDelete<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'config_delete'>
+  ): Promise<Result<Ret<'config_delete', V>>>
   configDelete<V extends 1 | 2 | 3>(
     options: Opts<'config_delete'> | (Opts<'config_delete'> & CommandVersion<V>)
   ): Promise<Result<Ret<'config_delete', V>>> {
@@ -286,8 +309,12 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `config_get` command returns the value of the specified configuration item.
    */
-  configGet<V extends 1 | 2 | 3>(options: Opts<'config_get'> & CommandVersion<V>): Promise<Result<Ret<'config_get', V>>>
-  configGet<V extends 1 | 2 | 3 = 1>(options: Opts<'config_get'>): Promise<Result<Ret<'config_get', V>>>
+  configGet<V extends 1 | 2 | 3>(
+    options: Opts<'config_get'> & CommandVersion<V>
+  ): Promise<Result<Ret<'config_get', V>>>
+  configGet<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'config_get'>
+  ): Promise<Result<Ret<'config_get', V>>>
   configGet<V extends 1 | 2 | 3>(
     options: Opts<'config_get'> | (Opts<'config_get'> & CommandVersion<V>)
   ): Promise<Result<Ret<'config_get', V>>> {
@@ -310,8 +337,12 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `config_set` command sets a value to the specified configuration item.
    */
-  configSet<V extends 1 | 2 | 3>(options: Opts<'config_set'> & CommandVersion<V>): Promise<Result<Ret<'config_set', V>>>
-  configSet<V extends 1 | 2 | 3 = 1>(options: Opts<'config_set'>): Promise<Result<Ret<'config_set', V>>>
+  configSet<V extends 1 | 2 | 3>(
+    options: Opts<'config_set'> & CommandVersion<V>
+  ): Promise<Result<Ret<'config_set', V>>>
+  configSet<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'config_set'>
+  ): Promise<Result<Ret<'config_set', V>>>
   configSet<V extends 1 | 2 | 3>(
     options: Opts<'config_set'> | (Opts<'config_set'> & CommandVersion<V>)
   ): Promise<Result<Ret<'config_set', V>>> {
@@ -337,7 +368,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   databaseUnmap<V extends 1 | 2 | 3>(
     options?: Opts<'database_unmap'> & CommandVersion<V>
   ): Promise<Result<Ret<'database_unmap', V>>>
-  databaseUnmap<V extends 1 | 2 | 3 = 1>(options?: Opts<'database_unmap'>): Promise<Result<Ret<'database_unmap', V>>>
+  databaseUnmap<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'database_unmap'>
+  ): Promise<Result<Ret<'database_unmap', V>>>
   databaseUnmap<V extends 1 | 2 | 3>(
     options?: Opts<'database_unmap'> | (Opts<'database_unmap'> & CommandVersion<V>)
   ): Promise<Result<Ret<'database_unmap', V>>> {
@@ -363,7 +396,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   defineSelector<V extends 1 | 2 | 3>(
     options: Opts<'define_selector'> & CommandVersion<V>
   ): Promise<Result<Ret<'define_selector', V>>>
-  defineSelector<V extends 1 | 2 | 3 = 1>(options: Opts<'define_selector'>): Promise<Result<Ret<'define_selector', V>>>
+  defineSelector<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'define_selector'>
+  ): Promise<Result<Ret<'define_selector', V>>>
   defineSelector<V extends 1 | 2 | 3>(
     options: Opts<'define_selector'> | (Opts<'define_selector'> & CommandVersion<V>)
   ): Promise<Result<Ret<'define_selector', V>>> {
@@ -386,7 +421,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `defrag` command resolves fragmentation of specified objects.
    */
-  defrag<V extends 1 | 2 | 3>(options?: Opts<'defrag'> & CommandVersion<V>): Promise<Result<Ret<'defrag', V>>>
+  defrag<V extends 1 | 2 | 3>(
+    options?: Opts<'defrag'> & CommandVersion<V>
+  ): Promise<Result<Ret<'defrag', V>>>
   defrag<V extends 1 | 2 | 3 = 1>(options?: Opts<'defrag'>): Promise<Result<Ret<'defrag', V>>>
   defrag<V extends 1 | 2 | 3>(
     options?: Opts<'defrag'> | (Opts<'defrag'> & CommandVersion<V>)
@@ -410,7 +447,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `delete` command deletes specified record of table.
    */
-  delete<V extends 1 | 2 | 3>(options: Opts<'delete'> & CommandVersion<V>): Promise<Result<Ret<'delete', V>>>
+  delete<V extends 1 | 2 | 3>(
+    options: Opts<'delete'> & CommandVersion<V>
+  ): Promise<Result<Ret<'delete', V>>>
   delete<V extends 1 | 2 | 3 = 1>(options: Opts<'delete'>): Promise<Result<Ret<'delete', V>>>
   delete<V extends 1 | 2 | 3>(
     options: Opts<'delete'> | (Opts<'delete'> & CommandVersion<V>)
@@ -434,7 +473,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `dump` outputs a schema and data of a database.
    */
-  dump<V extends 1 | 2 | 3>(options?: Opts<'dump'> & CommandVersion<V>): Promise<Result<Ret<'dump', V>>>
+  dump<V extends 1 | 2 | 3>(
+    options?: Opts<'dump'> & CommandVersion<V>
+  ): Promise<Result<Ret<'dump', V>>>
   dump<V extends 1 | 2 | 3 = 1>(options?: Opts<'dump'>): Promise<Result<Ret<'dump', V>>>
   dump<V extends 1 | 2 | 3>(
     options?: Opts<'dump'> | (Opts<'dump'> & CommandVersion<V>)
@@ -458,7 +499,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `io_flush` flushes all changes in memory to disk explicitly.
    */
-  ioFlush<V extends 1 | 2 | 3>(options?: Opts<'io_flush'> & CommandVersion<V>): Promise<Result<Ret<'io_flush', V>>>
+  ioFlush<V extends 1 | 2 | 3>(
+    options?: Opts<'io_flush'> & CommandVersion<V>
+  ): Promise<Result<Ret<'io_flush', V>>>
   ioFlush<V extends 1 | 2 | 3 = 1>(options?: Opts<'io_flush'>): Promise<Result<Ret<'io_flush', V>>>
   ioFlush<V extends 1 | 2 | 3>(
     options?: Opts<'io_flush'> | (Opts<'io_flush'> & CommandVersion<V>)
@@ -510,7 +553,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `load` loads data as records in the current database and updates values of each columns.
    */
-  load<V extends 1 | 2 | 3>(options: Opts<'load'> & CommandVersion<V>): Promise<Result<Ret<'load', V>>>
+  load<V extends 1 | 2 | 3>(
+    options: Opts<'load'> & CommandVersion<V>
+  ): Promise<Result<Ret<'load', V>>>
   load<V extends 1 | 2 | 3 = 3>(options: Opts<'load'>): Promise<Result<Ret<'load', V>>>
   load<V extends 1 | 2 | 3>(
     options: Opts<'load'> | (Opts<'load'> & CommandVersion<V>)
@@ -540,7 +585,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   lockAcquire<V extends 1 | 2 | 3>(
     options?: Opts<'lock_acquire'> & CommandVersion<V>
   ): Promise<Result<Ret<'lock_acquire', V>>>
-  lockAcquire<V extends 1 | 2 | 3 = 1>(options?: Opts<'lock_acquire'>): Promise<Result<Ret<'lock_acquire', V>>>
+  lockAcquire<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'lock_acquire'>
+  ): Promise<Result<Ret<'lock_acquire', V>>>
   lockAcquire<V extends 1 | 2 | 3>(
     options?: Opts<'lock_acquire'> | (Opts<'lock_acquire'> & CommandVersion<V>)
   ): Promise<Result<Ret<'lock_acquire', V>>> {
@@ -566,7 +613,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   lockClear<V extends 1 | 2 | 3>(
     options?: Opts<'lock_clear'> & CommandVersion<V>
   ): Promise<Result<Ret<'lock_clear', V>>>
-  lockClear<V extends 1 | 2 | 3 = 1>(options?: Opts<'lock_clear'>): Promise<Result<Ret<'lock_clear', V>>>
+  lockClear<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'lock_clear'>
+  ): Promise<Result<Ret<'lock_clear', V>>>
   lockClear<V extends 1 | 2 | 3>(
     options?: Opts<'lock_clear'> | (Opts<'lock_clear'> & CommandVersion<V>)
   ): Promise<Result<Ret<'lock_clear', V>>> {
@@ -592,7 +641,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   lockRelease<V extends 1 | 2 | 3>(
     options?: Opts<'lock_release'> & CommandVersion<V>
   ): Promise<Result<Ret<'lock_release', V>>>
-  lockRelease<V extends 1 | 2 | 3 = 1>(options?: Opts<'lock_release'>): Promise<Result<Ret<'lock_release', V>>>
+  lockRelease<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'lock_release'>
+  ): Promise<Result<Ret<'lock_release', V>>>
   lockRelease<V extends 1 | 2 | 3>(
     options?: Opts<'lock_release'> | (Opts<'lock_release'> & CommandVersion<V>)
   ): Promise<Result<Ret<'lock_release', V>>> {
@@ -615,8 +666,12 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `log_level` command sets log level of Groonga.
    */
-  logLevel<V extends 1 | 2 | 3>(options: Opts<'log_level'> & CommandVersion<V>): Promise<Result<Ret<'log_level', V>>>
-  logLevel<V extends 1 | 2 | 3 = 1>(options: Opts<'log_level'>): Promise<Result<Ret<'log_level', V>>>
+  logLevel<V extends 1 | 2 | 3>(
+    options: Opts<'log_level'> & CommandVersion<V>
+  ): Promise<Result<Ret<'log_level', V>>>
+  logLevel<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'log_level'>
+  ): Promise<Result<Ret<'log_level', V>>>
   logLevel<V extends 1 | 2 | 3>(
     options: Opts<'log_level'> | (Opts<'log_level'> & CommandVersion<V>)
   ): Promise<Result<Ret<'log_level', V>>> {
@@ -639,7 +694,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `log_put` outputs a message to the log.
    */
-  logPut<V extends 1 | 2 | 3>(options: Opts<'log_put'> & CommandVersion<V>): Promise<Result<Ret<'log_put', V>>>
+  logPut<V extends 1 | 2 | 3>(
+    options: Opts<'log_put'> & CommandVersion<V>
+  ): Promise<Result<Ret<'log_put', V>>>
   logPut<V extends 1 | 2 | 3 = 1>(options: Opts<'log_put'>): Promise<Result<Ret<'log_put', V>>>
   logPut<V extends 1 | 2 | 3>(
     options: Opts<'log_put'> | (Opts<'log_put'> & CommandVersion<V>)
@@ -666,7 +723,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   logReopen<V extends 1 | 2 | 3>(
     options?: Opts<'log_reopen'> & CommandVersion<V>
   ): Promise<Result<Ret<'log_reopen', V>>>
-  logReopen<V extends 1 | 2 | 3 = 1>(options?: Opts<'log_reopen'>): Promise<Result<Ret<'log_reopen', V>>>
+  logReopen<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'log_reopen'>
+  ): Promise<Result<Ret<'log_reopen', V>>>
   logReopen<V extends 1 | 2 | 3>(
     options?: Opts<'log_reopen'> | (Opts<'log_reopen'> & CommandVersion<V>)
   ): Promise<Result<Ret<'log_reopen', V>>> {
@@ -692,7 +751,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   logicalCount<V extends 1 | 2 | 3>(
     options: Opts<'logical_count'> & CommandVersion<V>
   ): Promise<Result<Ret<'logical_count', V>>>
-  logicalCount<V extends 1 | 2 | 3 = 1>(options: Opts<'logical_count'>): Promise<Result<Ret<'logical_count', V>>>
+  logicalCount<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'logical_count'>
+  ): Promise<Result<Ret<'logical_count', V>>>
   logicalCount<V extends 1 | 2 | 3>(
     options: Opts<'logical_count'> | (Opts<'logical_count'> & CommandVersion<V>)
   ): Promise<Result<Ret<'logical_count', V>>> {
@@ -780,7 +841,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   logicalSelect<V extends 2>(
     options: Opts<'logical_select'> & CommandVersion<V>
   ): Promise<Result<Ret<'logical_select', V>>>
-  logicalSelect<V extends 2 = 2>(options: Opts<'logical_select'>): Promise<Result<Ret<'logical_select', V>>>
+  logicalSelect<V extends 2 = 2>(
+    options: Opts<'logical_select'>
+  ): Promise<Result<Ret<'logical_select', V>>>
   logicalSelect<V extends 2>(
     options: Opts<'logical_select'> | (Opts<'logical_select'> & CommandVersion<V>)
   ): Promise<Result<Ret<'logical_select', V>>> {
@@ -862,8 +925,12 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `normalize` command normalizes text by the specified normalizer.
    */
-  normalize<V extends 1 | 2 | 3>(options: Opts<'normalize'> & CommandVersion<V>): Promise<Result<Ret<'normalize', V>>>
-  normalize<V extends 1 | 2 | 3 = 1>(options: Opts<'normalize'>): Promise<Result<Ret<'normalize', V>>>
+  normalize<V extends 1 | 2 | 3>(
+    options: Opts<'normalize'> & CommandVersion<V>
+  ): Promise<Result<Ret<'normalize', V>>>
+  normalize<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'normalize'>
+  ): Promise<Result<Ret<'normalize', V>>>
   normalize<V extends 1 | 2 | 3>(
     options: Opts<'normalize'> | (Opts<'normalize'> & CommandVersion<V>)
   ): Promise<Result<Ret<'normalize', V>>> {
@@ -889,7 +956,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   normalizerList<V extends 1 | 2 | 3>(
     options?: Opts<'normalizer_list'> & CommandVersion<V>
   ): Promise<Result<Ret<'normalizer_list', V>>>
-  normalizerList<V extends 1 | 2 | 3 = 1>(options?: Opts<'normalizer_list'>): Promise<Result<Ret<'normalizer_list', V>>>
+  normalizerList<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'normalizer_list'>
+  ): Promise<Result<Ret<'normalizer_list', V>>>
   normalizerList<V extends 1 | 2 | 3>(
     options?: Opts<'normalizer_list'> | (Opts<'normalizer_list'> & CommandVersion<V>)
   ): Promise<Result<Ret<'normalizer_list', V>>> {
@@ -915,7 +984,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   objectExist<V extends 1 | 2 | 3>(
     options: Opts<'object_exist'> & CommandVersion<V>
   ): Promise<Result<Ret<'object_exist', V>>>
-  objectExist<V extends 1 | 2 | 3 = 1>(options: Opts<'object_exist'>): Promise<Result<Ret<'object_exist', V>>>
+  objectExist<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'object_exist'>
+  ): Promise<Result<Ret<'object_exist', V>>>
   objectExist<V extends 1 | 2 | 3>(
     options: Opts<'object_exist'> | (Opts<'object_exist'> & CommandVersion<V>)
   ): Promise<Result<Ret<'object_exist', V>>> {
@@ -941,7 +1012,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   objectInspect<V extends 1 | 2 | 3>(
     options?: Opts<'object_inspect'> & CommandVersion<V>
   ): Promise<Result<Ret<'object_inspect', V>>>
-  objectInspect<V extends 1 | 2 | 3 = 1>(options?: Opts<'object_inspect'>): Promise<Result<Ret<'object_inspect', V>>>
+  objectInspect<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'object_inspect'>
+  ): Promise<Result<Ret<'object_inspect', V>>>
   objectInspect<V extends 1 | 2 | 3>(
     options?: Opts<'object_inspect'> | (Opts<'object_inspect'> & CommandVersion<V>)
   ): Promise<Result<Ret<'object_inspect', V>>> {
@@ -967,7 +1040,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   objectList<V extends 1 | 2 | 3>(
     options?: Opts<'object_list'> & CommandVersion<V>
   ): Promise<Result<Ret<'object_list', V>>>
-  objectList<V extends 1 | 2 | 3 = 1>(options?: Opts<'object_list'>): Promise<Result<Ret<'object_list', V>>>
+  objectList<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'object_list'>
+  ): Promise<Result<Ret<'object_list', V>>>
   objectList<V extends 1 | 2 | 3>(
     options?: Opts<'object_list'> | (Opts<'object_list'> & CommandVersion<V>)
   ): Promise<Result<Ret<'object_list', V>>> {
@@ -993,7 +1068,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   objectRemove<V extends 1 | 2 | 3>(
     options: Opts<'object_remove'> & CommandVersion<V>
   ): Promise<Result<Ret<'object_remove', V>>>
-  objectRemove<V extends 1 | 2 | 3 = 1>(options: Opts<'object_remove'>): Promise<Result<Ret<'object_remove', V>>>
+  objectRemove<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'object_remove'>
+  ): Promise<Result<Ret<'object_remove', V>>>
   objectRemove<V extends 1 | 2 | 3>(
     options: Opts<'object_remove'> | (Opts<'object_remove'> & CommandVersion<V>)
   ): Promise<Result<Ret<'object_remove', V>>> {
@@ -1047,7 +1124,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   pluginRegister<V extends 1 | 2 | 3>(
     options: Opts<'plugin_register'> & CommandVersion<V>
   ): Promise<Result<Ret<'plugin_register', V>>>
-  pluginRegister<V extends 1 | 2 | 3 = 1>(options: Opts<'plugin_register'>): Promise<Result<Ret<'plugin_register', V>>>
+  pluginRegister<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'plugin_register'>
+  ): Promise<Result<Ret<'plugin_register', V>>>
   pluginRegister<V extends 1 | 2 | 3>(
     options: Opts<'plugin_register'> | (Opts<'plugin_register'> & CommandVersion<V>)
   ): Promise<Result<Ret<'plugin_register', V>>> {
@@ -1101,7 +1180,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   queryExpand<V extends 1 | 2 | 3>(
     options: Opts<'query_expand'> & CommandVersion<V>
   ): Promise<Result<Ret<'query_expand', V>>>
-  queryExpand<V extends 1 | 2 | 3 = 1>(options: Opts<'query_expand'>): Promise<Result<Ret<'query_expand', V>>>
+  queryExpand<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'query_expand'>
+  ): Promise<Result<Ret<'query_expand', V>>>
   queryExpand<V extends 1 | 2 | 3>(
     options: Opts<'query_expand'> | (Opts<'query_expand'> & CommandVersion<V>)
   ): Promise<Result<Ret<'query_expand', V>>> {
@@ -1124,7 +1205,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `quit` ends the session.
    */
-  quit<V extends 1 | 2 | 3>(options?: Opts<'quit'> & CommandVersion<V>): Promise<Result<Ret<'quit', V>>>
+  quit<V extends 1 | 2 | 3>(
+    options?: Opts<'quit'> & CommandVersion<V>
+  ): Promise<Result<Ret<'quit', V>>>
   quit<V extends 1 | 2 | 3 = 1>(options?: Opts<'quit'>): Promise<Result<Ret<'quit', V>>>
   quit<V extends 1 | 2 | 3>(
     options?: Opts<'quit'> | (Opts<'quit'> & CommandVersion<V>)
@@ -1263,7 +1346,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   rangeFilter<V extends 1 | 2 | 3>(
     options: Opts<'range_filter'> & CommandVersion<V>
   ): Promise<Result<Ret<'range_filter', V>>>
-  rangeFilter<V extends 1 | 2 | 3 = 3>(options: Opts<'range_filter'>): Promise<Result<Ret<'range_filter', V>>>
+  rangeFilter<V extends 1 | 2 | 3 = 3>(
+    options: Opts<'range_filter'>
+  ): Promise<Result<Ret<'range_filter', V>>>
   rangeFilter<V extends 1 | 2 | 3>(
     options: Opts<'range_filter'> | (Opts<'range_filter'> & CommandVersion<V>)
   ): Promise<Result<Ret<'range_filter', V>>> {
@@ -1286,7 +1371,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * @deprecated Use `plugin_register` instead.
    */
-  register<V extends 1 | 2 | 3>(options: Opts<'register'> & CommandVersion<V>): Promise<Result<Ret<'register', V>>>
+  register<V extends 1 | 2 | 3>(
+    options: Opts<'register'> & CommandVersion<V>
+  ): Promise<Result<Ret<'register', V>>>
   register<V extends 1 | 2 | 3 = 1>(options: Opts<'register'>): Promise<Result<Ret<'register', V>>>
   register<V extends 1 | 2 | 3>(
     options: Opts<'register'> | (Opts<'register'> & CommandVersion<V>)
@@ -1310,7 +1397,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `reindex` command recreates one or more index columns.
    */
-  reindex<V extends 1 | 2 | 3>(options?: Opts<'reindex'> & CommandVersion<V>): Promise<Result<Ret<'reindex', V>>>
+  reindex<V extends 1 | 2 | 3>(
+    options?: Opts<'reindex'> & CommandVersion<V>
+  ): Promise<Result<Ret<'reindex', V>>>
   reindex<V extends 1 | 2 | 3 = 1>(options?: Opts<'reindex'>): Promise<Result<Ret<'reindex', V>>>
   reindex<V extends 1 | 2 | 3>(
     options?: Opts<'reindex'> | (Opts<'reindex'> & CommandVersion<V>)
@@ -1337,7 +1426,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   requestCancel<V extends 1 | 2 | 3>(
     options: Opts<'request_cancel'> & CommandVersion<V>
   ): Promise<Result<Ret<'request_cancel', V>>>
-  requestCancel<V extends 1 | 2 | 3 = 1>(options: Opts<'request_cancel'>): Promise<Result<Ret<'request_cancel', V>>>
+  requestCancel<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'request_cancel'>
+  ): Promise<Result<Ret<'request_cancel', V>>>
   requestCancel<V extends 1 | 2 | 3>(
     options: Opts<'request_cancel'> | (Opts<'request_cancel'> & CommandVersion<V>)
   ): Promise<Result<Ret<'request_cancel', V>>> {
@@ -1360,8 +1451,12 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `ruby_eval` command evaluates Ruby script and returns the result.
    */
-  rubyEval<V extends 1 | 2 | 3>(options: Opts<'ruby_eval'> & CommandVersion<V>): Promise<Result<Ret<'ruby_eval', V>>>
-  rubyEval<V extends 1 | 2 | 3 = 1>(options: Opts<'ruby_eval'>): Promise<Result<Ret<'ruby_eval', V>>>
+  rubyEval<V extends 1 | 2 | 3>(
+    options: Opts<'ruby_eval'> & CommandVersion<V>
+  ): Promise<Result<Ret<'ruby_eval', V>>>
+  rubyEval<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'ruby_eval'>
+  ): Promise<Result<Ret<'ruby_eval', V>>>
   rubyEval<V extends 1 | 2 | 3>(
     options: Opts<'ruby_eval'> | (Opts<'ruby_eval'> & CommandVersion<V>)
   ): Promise<Result<Ret<'ruby_eval', V>>> {
@@ -1384,7 +1479,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `schema` command returns schema in the database.
    */
-  schema<V extends 1 | 2 | 3>(options?: Opts<'schema'> & CommandVersion<V>): Promise<Result<Ret<'schema', V>>>
+  schema<V extends 1 | 2 | 3>(
+    options?: Opts<'schema'> & CommandVersion<V>
+  ): Promise<Result<Ret<'schema', V>>>
   schema<V extends 1 | 2 | 3 = 1>(options?: Opts<'schema'>): Promise<Result<Ret<'schema', V>>>
   schema<V extends 1 | 2 | 3>(
     options?: Opts<'schema'> | (Opts<'schema'> & CommandVersion<V>)
@@ -1408,7 +1505,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `select` searches records that are matched to specified conditions from a table and then outputs them.
    */
-  select<V extends 1 | 2 | 3>(options: Opts<'select'> & CommandVersion<V>): Promise<Result<Ret<'select', V>>>
+  select<V extends 1 | 2 | 3>(
+    options: Opts<'select'> & CommandVersion<V>
+  ): Promise<Result<Ret<'select', V>>>
   select<V extends 1 | 2 | 3 = 3>(options: Opts<'select'>): Promise<Result<Ret<'select', V>>>
   select<V extends 1 | 2 | 3>(
     options: Opts<'select'> | (Opts<'select'> & CommandVersion<V>)
@@ -1435,7 +1534,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `shutdown` stops the Groonga server process.
    */
-  shutdown<V extends 1 | 2 | 3>(options?: Opts<'shutdown'> & CommandVersion<V>): Promise<Result<Ret<'shutdown', V>>>
+  shutdown<V extends 1 | 2 | 3>(
+    options?: Opts<'shutdown'> & CommandVersion<V>
+  ): Promise<Result<Ret<'shutdown', V>>>
   shutdown<V extends 1 | 2 | 3 = 1>(options?: Opts<'shutdown'>): Promise<Result<Ret<'shutdown', V>>>
   shutdown<V extends 1 | 2 | 3>(
     options?: Opts<'shutdown'> | (Opts<'shutdown'> & CommandVersion<V>)
@@ -1459,7 +1560,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `status` returns the current status of the context that processes the request.
    */
-  status<V extends 1 | 2 | 3>(options?: Opts<'status'> & CommandVersion<V>): Promise<Result<Ret<'status', V>>>
+  status<V extends 1 | 2 | 3>(
+    options?: Opts<'status'> & CommandVersion<V>
+  ): Promise<Result<Ret<'status', V>>>
   status<V extends 1 | 2 | 3 = 1>(options?: Opts<'status'>): Promise<Result<Ret<'status', V>>>
   status<V extends 1 | 2 | 3>(
     options?: Opts<'status'> | (Opts<'status'> & CommandVersion<V>)
@@ -1483,7 +1586,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * suggest returns completion, correction and/or suggestion for a query.
    */
-  suggest<V extends 1 | 2 | 3>(options: Opts<'suggest'> & CommandVersion<V>): Promise<Result<Ret<'suggest', V>>>
+  suggest<V extends 1 | 2 | 3>(
+    options: Opts<'suggest'> & CommandVersion<V>
+  ): Promise<Result<Ret<'suggest', V>>>
   suggest<V extends 1 | 2 | 3 = 1>(options: Opts<'suggest'>): Promise<Result<Ret<'suggest', V>>>
   suggest<V extends 1 | 2 | 3>(
     options: Opts<'suggest'> | (Opts<'suggest'> & CommandVersion<V>)
@@ -1507,8 +1612,12 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `table_copy` copies a table.
    */
-  tableCopy<V extends 1 | 2 | 3>(options: Opts<'table_copy'> & CommandVersion<V>): Promise<Result<Ret<'table_copy', V>>>
-  tableCopy<V extends 1 | 2 | 3 = 1>(options: Opts<'table_copy'>): Promise<Result<Ret<'table_copy', V>>>
+  tableCopy<V extends 1 | 2 | 3>(
+    options: Opts<'table_copy'> & CommandVersion<V>
+  ): Promise<Result<Ret<'table_copy', V>>>
+  tableCopy<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'table_copy'>
+  ): Promise<Result<Ret<'table_copy', V>>>
   tableCopy<V extends 1 | 2 | 3>(
     options: Opts<'table_copy'> | (Opts<'table_copy'> & CommandVersion<V>)
   ): Promise<Result<Ret<'table_copy', V>>> {
@@ -1534,11 +1643,15 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   tableCreate<V extends 1 | 2 | 3>(
     options: OptsTableCreateNonArray & CommandVersion<V>
   ): Promise<Result<Ret<'table_create', V>>>
-  tableCreate<V extends 1 | 2 | 3 = 1>(options: OptsTableCreateNonArray): Promise<Result<Ret<'table_create', V>>>
+  tableCreate<V extends 1 | 2 | 3 = 1>(
+    options: OptsTableCreateNonArray
+  ): Promise<Result<Ret<'table_create', V>>>
   tableCreate<V extends 1 | 2 | 3>(
     options: OptsTableCreateArray & CommandVersion<V>
   ): Promise<Result<Ret<'table_create', V>>>
-  tableCreate<V extends 1 | 2 | 3 = 1>(options: OptsTableCreateArray): Promise<Result<Ret<'table_create', V>>>
+  tableCreate<V extends 1 | 2 | 3 = 1>(
+    options: OptsTableCreateArray
+  ): Promise<Result<Ret<'table_create', V>>>
   tableCreate<V extends 1 | 2 | 3>(
     options:
       | OptsTableCreateArray
@@ -1568,7 +1681,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   tableList<V extends 1 | 2 | 3>(
     options?: Opts<'table_list'> & CommandVersion<V>
   ): Promise<Result<Ret<'table_list', V>>>
-  tableList<V extends 1 | 2 | 3 = 1>(options?: Opts<'table_list'>): Promise<Result<Ret<'table_list', V>>>
+  tableList<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'table_list'>
+  ): Promise<Result<Ret<'table_list', V>>>
   tableList<V extends 1 | 2 | 3>(
     options?: Opts<'table_list'> | (Opts<'table_list'> & CommandVersion<V>)
   ): Promise<Result<Ret<'table_list', V>>> {
@@ -1594,7 +1709,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   tableRemove<V extends 1 | 2 | 3>(
     options: Opts<'table_remove'> & CommandVersion<V>
   ): Promise<Result<Ret<'table_remove', V>>>
-  tableRemove<V extends 1 | 2 | 3 = 1>(options: Opts<'table_remove'>): Promise<Result<Ret<'table_remove', V>>>
+  tableRemove<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'table_remove'>
+  ): Promise<Result<Ret<'table_remove', V>>>
   tableRemove<V extends 1 | 2 | 3>(
     options: Opts<'table_remove'> | (Opts<'table_remove'> & CommandVersion<V>)
   ): Promise<Result<Ret<'table_remove', V>>> {
@@ -1620,7 +1737,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   tableRename<V extends 1 | 2 | 3>(
     options: Opts<'table_rename'> & CommandVersion<V>
   ): Promise<Result<Ret<'table_rename', V>>>
-  tableRename<V extends 1 | 2 | 3 = 1>(options: Opts<'table_rename'>): Promise<Result<Ret<'table_rename', V>>>
+  tableRename<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'table_rename'>
+  ): Promise<Result<Ret<'table_rename', V>>>
   tableRename<V extends 1 | 2 | 3>(
     options: Opts<'table_rename'> | (Opts<'table_rename'> & CommandVersion<V>)
   ): Promise<Result<Ret<'table_rename', V>>> {
@@ -1646,7 +1765,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   tableTokenize<V extends 1 | 2 | 3>(
     options: Opts<'table_tokenize'> & CommandVersion<V>
   ): Promise<Result<Ret<'table_tokenize', V>>>
-  tableTokenize<V extends 1 | 2 | 3 = 1>(options: Opts<'table_tokenize'>): Promise<Result<Ret<'table_tokenize', V>>>
+  tableTokenize<V extends 1 | 2 | 3 = 1>(
+    options: Opts<'table_tokenize'>
+  ): Promise<Result<Ret<'table_tokenize', V>>>
   tableTokenize<V extends 1 | 2 | 3>(
     options: Opts<'table_tokenize'> | (Opts<'table_tokenize'> & CommandVersion<V>)
   ): Promise<Result<Ret<'table_tokenize', V>>> {
@@ -1672,7 +1793,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   threadLimit<V extends 1 | 2 | 3>(
     options?: Opts<'thread_limit'> & CommandVersion<V>
   ): Promise<Result<Ret<'thread_limit', V>>>
-  threadLimit<V extends 1 | 2 | 3 = 1>(options?: Opts<'thread_limit'>): Promise<Result<Ret<'thread_limit', V>>>
+  threadLimit<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'thread_limit'>
+  ): Promise<Result<Ret<'thread_limit', V>>>
   threadLimit<V extends 1 | 2 | 3>(
     options?: Opts<'thread_limit'> | (Opts<'thread_limit'> & CommandVersion<V>)
   ): Promise<Result<Ret<'thread_limit', V>>> {
@@ -1695,7 +1818,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `tokenize` command tokenizes text by the specified tokenizer.
    */
-  tokenize<V extends 1 | 2 | 3>(options: Opts<'tokenize'> & CommandVersion<V>): Promise<Result<Ret<'tokenize', V>>>
+  tokenize<V extends 1 | 2 | 3>(
+    options: Opts<'tokenize'> & CommandVersion<V>
+  ): Promise<Result<Ret<'tokenize', V>>>
   tokenize<V extends 1 | 2 | 3 = 1>(options: Opts<'tokenize'>): Promise<Result<Ret<'tokenize', V>>>
   tokenize<V extends 1 | 2 | 3>(
     options: Opts<'tokenize'> | (Opts<'tokenize'> & CommandVersion<V>)
@@ -1722,7 +1847,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   tokenizerList<V extends 1 | 2 | 3>(
     options?: Opts<'tokenizer_list'> & CommandVersion<V>
   ): Promise<Result<Ret<'tokenizer_list', V>>>
-  tokenizerList<V extends 1 | 2 | 3 = 1>(options?: Opts<'tokenizer_list'>): Promise<Result<Ret<'tokenizer_list', V>>>
+  tokenizerList<V extends 1 | 2 | 3 = 1>(
+    options?: Opts<'tokenizer_list'>
+  ): Promise<Result<Ret<'tokenizer_list', V>>>
   tokenizerList<V extends 1 | 2 | 3>(
     options?: Opts<'tokenizer_list'> | (Opts<'tokenizer_list'> & CommandVersion<V>)
   ): Promise<Result<Ret<'tokenizer_list', V>>> {
@@ -1745,7 +1872,9 @@ export class Groongar<T extends GroongaClient = GroongaClient> {
   /**
    * `truncate` command deletes all records from specified table or all values from specified column.
    */
-  truncate<V extends 1 | 2 | 3>(options: Opts<'truncate'> & CommandVersion<V>): Promise<Result<Ret<'truncate', V>>>
+  truncate<V extends 1 | 2 | 3>(
+    options: Opts<'truncate'> & CommandVersion<V>
+  ): Promise<Result<Ret<'truncate', V>>>
   truncate<V extends 1 | 2 | 3 = 1>(options: Opts<'truncate'>): Promise<Result<Ret<'truncate', V>>>
   truncate<V extends 1 | 2 | 3>(
     options: Opts<'truncate'> | (Opts<'truncate'> & CommandVersion<V>)

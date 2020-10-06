@@ -9,8 +9,14 @@ type Vers = { vers: string; default: number }
 const CommonVers = { vers: '1 | 2 | 3', default: 1 }
 const FLATTEN_REQUIRED = 'FLATTEN_REQUIRED'
 const TABLE_CREATE = 'TABLE_CREATE' // <= REQUIRED
-const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED' | 'TABLE_CREATE', Vers, string] } = {
-  cache_limit: [OPTIONAL, CommonVers, '`cache_limit` gets or sets the max number of query cache entries.'],
+const COMMANDS: {
+  [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED' | 'TABLE_CREATE', Vers, string]
+} = {
+  cache_limit: [
+    OPTIONAL,
+    CommonVers,
+    '`cache_limit` gets or sets the max number of query cache entries.',
+  ],
   check: [REQUIRED, CommonVers, '`check` displays the state of the object.'],
   clearlock: [
     REQUIRED,
@@ -22,10 +28,26 @@ const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED' 
   column_list: [REQUIRED, CommonVers, '`column_list` command lists columns in a table.'],
   column_remove: [REQUIRED, CommonVers, '`column_remove` deletes a column defined in the table.'],
   column_rename: [REQUIRED, CommonVers, '`column_rename` command renames a column.'],
-  config_delete: [REQUIRED, CommonVers, '`config_delete` command deletes the specified configuration item.'],
-  config_get: [REQUIRED, CommonVers, '`config_get` command returns the value of the specified configuration item.'],
-  config_set: [REQUIRED, CommonVers, '`config_set` command sets a value to the specified configuration item.'],
-  database_unmap: [OPTIONAL, CommonVers, '`database_unmap` unmaps already mapped tables and columns in the database.'],
+  config_delete: [
+    REQUIRED,
+    CommonVers,
+    '`config_delete` command deletes the specified configuration item.',
+  ],
+  config_get: [
+    REQUIRED,
+    CommonVers,
+    '`config_get` command returns the value of the specified configuration item.',
+  ],
+  config_set: [
+    REQUIRED,
+    CommonVers,
+    '`config_set` command sets a value to the specified configuration item.',
+  ],
+  database_unmap: [
+    OPTIONAL,
+    CommonVers,
+    '`database_unmap` unmaps already mapped tables and columns in the database.',
+  ],
   define_selector: [REQUIRED, CommonVers, '`define_selector` defines a new search command.'],
   defrag: [OPTIONAL, CommonVers, '`defrag` command resolves fragmentation of specified objects.'],
   delete: [REQUIRED, CommonVers, '`delete` command deletes specified record of table.'],
@@ -37,9 +59,21 @@ const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED' 
     { vers: '1 | 2 | 3', default: 3 },
     '`load` loads data as records in the current database and updates values of each columns.',
   ],
-  lock_acquire: [OPTIONAL, CommonVers, '`lock_acquire` command acquires the lock of the target object.'],
-  lock_clear: [OPTIONAL, CommonVers, '`lock_clear` command clear the lock of the target object recursively.'],
-  lock_release: [OPTIONAL, CommonVers, '`lock_release` command releases the lock of the target object.'],
+  lock_acquire: [
+    OPTIONAL,
+    CommonVers,
+    '`lock_acquire` command acquires the lock of the target object.',
+  ],
+  lock_clear: [
+    OPTIONAL,
+    CommonVers,
+    '`lock_clear` command clear the lock of the target object recursively.',
+  ],
+  lock_release: [
+    OPTIONAL,
+    CommonVers,
+    '`lock_release` command releases the lock of the target object.',
+  ],
   log_level: [REQUIRED, CommonVers, '`log_level` command sets log level of Groonga.'],
   log_put: [REQUIRED, CommonVers, '`log_put` outputs a message to the log.'],
   log_reopen: [OPTIONAL, CommonVers, '`log_reopen` is a command that reloads log files.'],
@@ -58,7 +92,11 @@ const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED' 
     { vers: '2', default: 2 },
     '`logical_range_filter` is a sharding version of range_filter.',
   ],
-  logical_select: [FLATTEN_REQUIRED, { vers: '2', default: 2 }, '`logical_select` is a sharding version of select.'],
+  logical_select: [
+    FLATTEN_REQUIRED,
+    { vers: '2', default: 2 },
+    '`logical_select` is a sharding version of select.',
+  ],
   logical_shard_list: [
     REQUIRED,
     CommonVers,
@@ -69,14 +107,26 @@ const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED' 
     CommonVers,
     '`logical_table_remove` removes tables and their columns for the specified logical table.',
   ],
-  normalize: [REQUIRED, CommonVers, '`normalize` command normalizes text by the specified normalizer.'],
-  normalizer_list: [OPTIONAL, CommonVers, '`normalizer_list` command lists normalizers in a database.'],
+  normalize: [
+    REQUIRED,
+    CommonVers,
+    '`normalize` command normalizes text by the specified normalizer.',
+  ],
+  normalizer_list: [
+    OPTIONAL,
+    CommonVers,
+    '`normalizer_list` command lists normalizers in a database.',
+  ],
   object_exist: [
     REQUIRED,
     CommonVers,
     '`object_exist` returns whether object with the specified name exists or not in database.',
   ],
-  object_inspect: [OPTIONAL, CommonVers, '`object_inspect` inspects an object. You can confirm details of an object.'],
+  object_inspect: [
+    OPTIONAL,
+    CommonVers,
+    '`object_inspect` inspects an object. You can confirm details of an object.',
+  ],
   object_list: [OPTIONAL, CommonVers, '`object_list` lists objects in database.'],
   object_remove: [REQUIRED, CommonVers, '`object_remove` removes an object.'],
   object_set_visibility: [REQUIRED, CommonVers, '@todo'],
@@ -92,7 +142,11 @@ const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED' 
   register: [REQUIRED, CommonVers, '@deprecated Use `plugin_register` instead.'],
   reindex: [OPTIONAL, CommonVers, '`reindex` command recreates one or more index columns.'],
   request_cancel: [REQUIRED, CommonVers, '`request_cancel` command cancels a running request.'],
-  ruby_eval: [REQUIRED, CommonVers, '`ruby_eval` command evaluates Ruby script and returns the result.'],
+  ruby_eval: [
+    REQUIRED,
+    CommonVers,
+    '`ruby_eval` command evaluates Ruby script and returns the result.',
+  ],
   // ruby_load: [REQUIRED, '`ruby_load` command loads specified Ruby script.'], # Removed
   schema: [OPTIONAL, CommonVers, '`schema` command returns schema in the database.'],
   select: [
@@ -101,23 +155,51 @@ const COMMANDS: { [name: string]: ['OPTIONAL' | 'REQUIRED' | 'FLATTEN_REQUIRED' 
     '`select` searches records that are matched to specified conditions from a table and then outputs them.',
   ],
   shutdown: [OPTIONAL, CommonVers, '`shutdown` stops the Groonga server process.'],
-  status: [OPTIONAL, CommonVers, '`status` returns the current status of the context that processes the request.'],
-  suggest: [REQUIRED, CommonVers, 'suggest returns completion, correction and/or suggestion for a query.'],
+  status: [
+    OPTIONAL,
+    CommonVers,
+    '`status` returns the current status of the context that processes the request.',
+  ],
+  suggest: [
+    REQUIRED,
+    CommonVers,
+    'suggest returns completion, correction and/or suggestion for a query.',
+  ],
   table_copy: [REQUIRED, CommonVers, '`table_copy` copies a table.'],
-  table_create: [TABLE_CREATE, CommonVers, '`table_create` creates a new table in the current database.'],
-  table_list: [OPTIONAL, CommonVers, '`table_list` lists the tables defined in the current database.'],
+  table_create: [
+    TABLE_CREATE,
+    CommonVers,
+    '`table_create` creates a new table in the current database.',
+  ],
+  table_list: [
+    OPTIONAL,
+    CommonVers,
+    '`table_list` lists the tables defined in the current database.',
+  ],
   table_remove: [REQUIRED, CommonVers, '`table_remove` removes a table and its columns.'],
   table_rename: [REQUIRED, CommonVers, '`table_rename` command renames a table.'],
-  table_tokenize: [REQUIRED, CommonVers, '`table_tokenize` command tokenizes text by the specified table’s tokenizer.'],
+  table_tokenize: [
+    REQUIRED,
+    CommonVers,
+    '`table_tokenize` command tokenizes text by the specified table’s tokenizer.',
+  ],
   thread_limit: [OPTIONAL, CommonVers, 'Not Implemented.'],
   tokenize: [REQUIRED, CommonVers, '`tokenize` command tokenizes text by the specified tokenizer.'],
-  tokenizer_list: [OPTIONAL, CommonVers, '`tokenizer_list` command lists tokenizers in a database.'],
+  tokenizer_list: [
+    OPTIONAL,
+    CommonVers,
+    '`tokenizer_list` command lists tokenizers in a database.',
+  ],
   truncate: [
     REQUIRED,
     CommonVers,
     '`truncate` command deletes all records from specified table or all values from specified column.',
   ],
-  reference_acquire: [OPTIONAL, CommonVers, '`reference_acquire` acquires a reference of target objects.'],
+  reference_acquire: [
+    OPTIONAL,
+    CommonVers,
+    '`reference_acquire` acquires a reference of target objects.',
+  ],
   reference_release: [
     OPTIONAL,
     CommonVers,
@@ -285,7 +367,9 @@ function generate_methods() {
 }
 
 function format(env: Env, src: string) {
-  const prettierrc = JSON.parse(fs.readFileSync(path.join(env.groongar_root_dir, '.prettierrc'), { encoding: 'utf8' }))
+  const prettierrc = JSON.parse(
+    fs.readFileSync(path.join(env.groongar_root_dir, '.prettierrc.json'), { encoding: 'utf8' })
+  )
   prettierrc.parser = 'typescript'
   return prettier.format(src, prettierrc)
 }

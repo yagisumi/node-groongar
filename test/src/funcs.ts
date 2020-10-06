@@ -80,7 +80,10 @@ export function sleep(msec: number) {
 export function fixDBPath(actual: unknown, db_path: string | RegExp) {
   const reDBPath =
     typeof db_path === 'string'
-      ? new RegExp(db_path.replace(/[-\\/\\\\^$*+?.()|[\\]{}]/g, '\\$&').replace(/\\/g, '\\\\'), 'g')
+      ? new RegExp(
+          db_path.replace(/[-\\/\\\\^$*+?.()|[\\]{}]/g, '\\$&').replace(/\\/g, '\\\\'),
+          'g'
+        )
       : db_path
 
   if (typeof actual === 'string') {

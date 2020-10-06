@@ -13,7 +13,9 @@ declare module '@/groongar' {
   }
 }
 
-Groongar.prototype.searchEnix = function (this: Groongar<GroongaClient>): Promise<Result<types.Ret<'select', 3>>> {
+Groongar.prototype.searchEnix = function (
+  this: Groongar<GroongaClient>
+): Promise<Result<types.Ret<'select', 3>>> {
   return new Promise((resolve) => {
     try {
       this.client.command('search_enix', { command_version: 3 }, (err, data) => {

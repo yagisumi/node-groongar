@@ -12,7 +12,10 @@ export declare namespace types {
   type cmd_vers = 1 | 2 | 3
   type Opts<K extends keyof CommandMap> = CommandMap[K]['opts']
   type Ret<K extends keyof CommandMap, V extends cmd_vers> = CommandMap[K]['ret'][V]
-  type callback<K extends keyof CommandMap, V extends cmd_vers> = (err: Error | null, data: Ret<K, V>) => void
+  type callback<K extends keyof CommandMap, V extends cmd_vers> = (
+    err: Error | null,
+    data: Ret<K, V>
+  ) => void
 
   type OutputType = 'json' | 'xml' | 'tsv' | 'msgpack'
 
@@ -52,9 +55,22 @@ export declare namespace types {
 
   type DataType = KeyDataType | 'Text' | 'LongText'
 
-  type LogLevel = 'emergency' | 'alert' | 'critical' | 'error' | 'warning' | 'notice' | 'info' | 'debug' | 'dump'
+  type LogLevel =
+    | 'emergency'
+    | 'alert'
+    | 'critical'
+    | 'error'
+    | 'warning'
+    | 'notice'
+    | 'info'
+    | 'debug'
+    | 'dump'
 
-  type Normalizer = 'NormalizerAuto' | 'NormalizerNFKC121' | 'NormalizerNFKC100' | 'NormalizerNFKC51'
+  type Normalizer =
+    | 'NormalizerAuto'
+    | 'NormalizerNFKC121'
+    | 'NormalizerNFKC100'
+    | 'NormalizerNFKC51'
 
   type Tokenizer =
     | 'TokenMecab'
@@ -1877,7 +1893,16 @@ export declare namespace types {
     ['normalizer', 'ShortText']
   ]
 
-  type TableInformation = [number, string, string, string, null | string, null | string, null | string, null | string]
+  type TableInformation = [
+    number,
+    string,
+    string,
+    string,
+    null | string,
+    null | string,
+    null | string,
+    null | string
+  ]
 
   type TableListReturnValue = [TableInformationType, ...TableInformation[]]
 

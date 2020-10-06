@@ -19,7 +19,10 @@ export const info1 = {
   ],
 }
 
-export async function setup1(groongar: Groongar, load_values = false): Promise<Result<typeof info1>> {
+export async function setup1(
+  groongar: Groongar,
+  load_values = false
+): Promise<Result<typeof info1>> {
   const r1 = await groongar.tableCreate({
     name: info1.table,
     flags: 'TABLE_HASH_KEY',
@@ -221,7 +224,11 @@ export async function setup4(groongar: Groongar): Promise<Result<boolean>> {
 
 export function buildRecords(result: types.ResultRecordsV3) {
   const reduced: Array<{ [key: string]: any }> = []
-  if (typeof result === 'object' && Array.isArray(result.columns) && Array.isArray(result.records)) {
+  if (
+    typeof result === 'object' &&
+    Array.isArray(result.columns) &&
+    Array.isArray(result.records)
+  ) {
     result.records.forEach((record) => {
       const obj: { [key: string]: any } = {}
       for (let i = 0; i < Math.min(record.length, result.columns.length); i++) {

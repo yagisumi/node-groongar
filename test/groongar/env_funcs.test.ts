@@ -70,7 +70,16 @@ describe('env_funcs', () => {
         ['default_tokenizer', 'ShortText'],
         ['normalizer', 'ShortText'],
       ],
-      [256, 'bookmarks', 'db/db.0000100', 'TABLE_PAT_KEY|PERSISTENT', 'ShortText', 'Object', null, null],
+      [
+        256,
+        'bookmarks',
+        'db/db.0000100',
+        'TABLE_PAT_KEY|PERSISTENT',
+        'ShortText',
+        'Object',
+        null,
+        null,
+      ],
     ]
 
     const res = [
@@ -84,7 +93,16 @@ describe('env_funcs', () => {
         ['default_tokenizer', 'ShortText'],
         ['normalizer', 'ShortText'],
       ],
-      [256, 'bookmarks', '/a/b/c.db.0000100', 'TABLE_PAT_KEY|PERSISTENT', 'ShortText', 'Object', null, null],
+      [
+        256,
+        'bookmarks',
+        '/a/b/c.db.0000100',
+        'TABLE_PAT_KEY|PERSISTENT',
+        'ShortText',
+        'Object',
+        null,
+        null,
+      ],
     ]
 
     expect(fixDBPath(res, '/a/b/c.db')).toEqual(expected)
