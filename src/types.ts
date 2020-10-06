@@ -10,9 +10,9 @@ export type CommandOptions = { [name: string]: any }
 export declare namespace types {
   type commands = keyof CommandMap
   type cmd_vers = 1 | 2 | 3
-  type opts<K extends keyof CommandMap> = CommandMap[K]['opts']
-  type ret<K extends keyof CommandMap, V extends cmd_vers> = CommandMap[K]['ret'][V]
-  type callback<K extends keyof CommandMap, V extends cmd_vers> = (err: Error | null, data: ret<K, V>) => void
+  type Opts<K extends keyof CommandMap> = CommandMap[K]['opts']
+  type Ret<K extends keyof CommandMap, V extends cmd_vers> = CommandMap[K]['ret'][V]
+  type callback<K extends keyof CommandMap, V extends cmd_vers> = (err: Error | null, data: Ret<K, V>) => void
 
   type OutputType = 'json' | 'xml' | 'tsv' | 'msgpack'
 
@@ -2082,7 +2082,7 @@ export declare namespace types {
     }
   }
 
-  type OptsTableCreateArray = Omit<opts<'table_create'>, 'flags'> & { flags: 'TABLE_NO_KEY' }
-  type OptsTableCreateNonArray = Omit<opts<'table_create'>, 'key_type'> &
-    Required<Pick<opts<'table_create'>, 'key_type'>>
+  type OptsTableCreateArray = Omit<Opts<'table_create'>, 'flags'> & { flags: 'TABLE_NO_KEY' }
+  type OptsTableCreateNonArray = Omit<Opts<'table_create'>, 'key_type'> &
+    Required<Pick<Opts<'table_create'>, 'key_type'>>
 }
