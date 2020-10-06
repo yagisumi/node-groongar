@@ -32,6 +32,7 @@ module.exports = {
           {
             allowString: false,
             allowNumber: false,
+            allowNullableBoolean: true,
           },
         ],
       },
