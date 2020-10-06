@@ -51,7 +51,7 @@ export function setupClient(config: SetupConfig): Promise<TestEnv> {
             }
             resolve(env)
           }
-        }, 1000)
+        }, 500)
       })
       .catch((err) => {
         reject(err)
@@ -59,22 +59,24 @@ export function setupClient(config: SetupConfig): Promise<TestEnv> {
   })
 }
 
-export function teardownClient(env: HttpTestEnv): Promise<void> {
-  return new Promise((resolve) => {
+export function sleep(msec: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, msec))
+}
+
+export async function teardownClient(env: HttpTestEnv) {
+  await env.client.commandAsync('shutdown').catch(() => 0)
+  await sleep(300)
+  for (let i = 0; i < 10; i++) {
     try {
-      env.client.command('shutdown', () => {})
-    } catch (err) {
+      env.server.kill()
+      await sleep(300)
+      if (env.server.exitCode != null || env.server.killed) {
+        break
+      }
+    } catch (e) {
       // empty
     }
-    setTimeout(() => {
-      try {
-        env.server.kill()
-      } catch (err) {
-        // empty
-      }
-      resolve()
-    }, 1000)
-  })
+  }
 }
 
 export default class StdioEnvironment extends BaseEnvironment {
