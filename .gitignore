@@ -8,6 +8,5 @@ node_modules/
 /src/*.js
 /src/*.map
 /test/lib/
-/test/grntest/
 /report.*
 tmp.*
