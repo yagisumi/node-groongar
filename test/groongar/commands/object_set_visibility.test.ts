@@ -3,7 +3,7 @@ import { createGroongar } from '@/groongar'
 import { setup1 } from './setup'
 
 const db_dir = path.join(__dirname, 'tmp.object_set_visibility')
-let env: TestEnv
+let env: TestEnv | undefined
 
 describe('test', () => {
   beforeAll(() => {

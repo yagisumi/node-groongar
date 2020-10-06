@@ -5,15 +5,15 @@ import { types } from '@/types'
 import { OK, ERR, Result } from '@/result'
 
 const db_dir = path.join(__dirname, 'tmp.define_selector')
-let env: TestEnv
+let env: TestEnv | undefined
 
 declare module '@/groongar' {
   interface Groongar {
-    searchEnix(): Promise<Result<types.ret<'select', 3>>>
+    searchEnix(): Promise<Result<types.Ret<'select', 3>>>
   }
 }
 
-Groongar.prototype.searchEnix = function (this: Groongar<GroongaClient>): Promise<Result<types.ret<'select', 3>>> {
+Groongar.prototype.searchEnix = function (this: Groongar<GroongaClient>): Promise<Result<types.Ret<'select', 3>>> {
   return new Promise((resolve) => {
     try {
       this.client.command('search_enix', { command_version: 3 }, (err, data) => {

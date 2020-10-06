@@ -3,7 +3,7 @@ import { createGroongar, Groongar } from '@/groongar'
 import { OK, Result } from '@/result'
 
 const db_dir = path.join(__dirname, 'tmp.sharding')
-let env: TestEnv
+let env: TestEnv | undefined
 
 async function setup_sharding(groongar: Groongar): Promise<Result<true>> {
   const VALUES1 = [

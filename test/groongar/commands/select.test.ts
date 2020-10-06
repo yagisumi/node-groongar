@@ -3,7 +3,7 @@ import { createGroongar } from '@/groongar'
 import { setup1, info1, buildRecords } from './setup'
 
 const db_dir = path.join(__dirname, 'tmp.select')
-let env: TestEnv
+let env: TestEnv | undefined
 
 describe('test', () => {
   beforeAll(() => {

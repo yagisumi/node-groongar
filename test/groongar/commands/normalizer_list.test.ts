@@ -2,7 +2,7 @@ import path from 'path'
 import { createGroongar } from '@/groongar'
 
 const db_dir = path.join(__dirname, 'tmp.normalizer_list')
-let env: TestEnv
+let env: TestEnv | undefined
 
 describe('test', () => {
   beforeAll(() => {

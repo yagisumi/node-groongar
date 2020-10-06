@@ -22,7 +22,7 @@ describe('command_utils', () => {
 
   test('flattenOptions', () => {
     const flatten1: CommandOptions = {}
-    const options1: types.opts<'select'> = {
+    const options1: types.Opts<'select'> = {
       query: 'content:@is',
       slices: {
         fast: {
@@ -58,7 +58,7 @@ describe('command_utils', () => {
     expect(flatten1).toEqual(expected1)
 
     const flatten2: CommandOptions = {}
-    const options2: types.opts<'select'> = {
+    const options2: types.Opts<'select'> = {
       table: 'Table',
       columns: {
         name1: {
@@ -94,7 +94,7 @@ describe('command_utils', () => {
     expect(flatten2).toEqual(expected2)
 
     const flatten3: CommandOptions = {}
-    const options3: types.opts<'select'> = {
+    const options3: types.Opts<'select'> = {
       table: 'Table',
       drilldowns: {
         label1: {
