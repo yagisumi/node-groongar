@@ -27,10 +27,10 @@ export function sleep(msec: number) {
 export async function teardownClient(env: StdioTestEnv) {
   await env.client.commandAsync('quit').catch(() => 0)
   await sleep(300)
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 12; i++) {
     try {
       env.client.kill()
-      await sleep(300)
+      await sleep(500)
       if (!env.client.isAlive()) {
         break
       }
@@ -38,24 +38,6 @@ export async function teardownClient(env: StdioTestEnv) {
       // empty
     }
   }
-
-  return new Promise((resolve) => {
-    try {
-      env.client.command('quit', () => {
-        setTimeout(() => {
-          try {
-            env.client.kill()
-          } catch (err) {
-            // empty
-          }
-
-          resolve()
-        }, 300)
-      })
-    } catch (err) {
-      // empty
-    }
-  })
 }
 
 export default class StdioEnvironment extends BaseEnvironment {
