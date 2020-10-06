@@ -9,7 +9,7 @@ type StdioTestEnv = {
   config: SetupConfig
 }
 
-function setupClient(config: SetupConfig): Promise<TestEnv> {
+export function setupClient(config: SetupConfig): Promise<TestEnv> {
   return new Promise((resolve) => {
     const client = createClient(config.db_path, { groongaPath: getGroongaPath() })
     const env: StdioTestEnv = {
@@ -20,7 +20,7 @@ function setupClient(config: SetupConfig): Promise<TestEnv> {
   })
 }
 
-function teardownClient(env: StdioTestEnv): Promise<void> {
+export function teardownClient(env: StdioTestEnv): Promise<void> {
   return new Promise((resolve) => {
     try {
       env.client.command('quit', () => {

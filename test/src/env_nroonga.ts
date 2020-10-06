@@ -3,12 +3,12 @@ import { SetupConfig, TestEnv } from './types'
 import { Database } from 'nroonga'
 import { BaseEnvironment } from './env_base'
 
-type NroongaTestEnv = {
+export type NroongaTestEnv = {
   client: Database
   config: SetupConfig
 }
 
-function setupClient(config: SetupConfig): Promise<TestEnv> {
+export function setupClient(config: SetupConfig): Promise<TestEnv> {
   return new Promise((resolve) => {
     const client = new Database(config.db_path)
     const env: NroongaTestEnv = {
@@ -19,7 +19,7 @@ function setupClient(config: SetupConfig): Promise<TestEnv> {
   })
 }
 
-function teardownClient(env: NroongaTestEnv): Promise<void> {
+export function teardownClient(env: NroongaTestEnv): Promise<void> {
   return new Promise((resolve) => {
     try {
       env.client.close()

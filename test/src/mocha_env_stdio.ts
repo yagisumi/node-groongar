@@ -1,5 +1,5 @@
 import * as funcs from './funcs'
-import { setupClient, teardownClient } from './env_nroonga'
+import { setupClient, teardownClient } from './env_stdio'
 
 declare const global: any
 
@@ -9,4 +9,4 @@ for (const f in funcs) {
 
 global.setupClient = setupClient
 global.teardownClient = teardownClient
-global.clientInterface = 'nroonga'
+global.clientInterface = 'stdio'

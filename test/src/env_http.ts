@@ -15,7 +15,7 @@ type HttpTestEnv = {
 
 const groonga = getGroongaPath()
 
-function setupClient(config: SetupConfig): Promise<TestEnv> {
+export function setupClient(config: SetupConfig): Promise<TestEnv> {
   return new Promise((resolve, reject) => {
     getPort()
       .then((port) => {
@@ -59,7 +59,7 @@ function setupClient(config: SetupConfig): Promise<TestEnv> {
   })
 }
 
-function teardownClient(env: HttpTestEnv): Promise<void> {
+export function teardownClient(env: HttpTestEnv): Promise<void> {
   return new Promise((resolve) => {
     try {
       env.client.command('shutdown', () => {})
