@@ -44,7 +44,7 @@ export function setupClient(config: SetupConfig): Promise<TestEnv> {
             reject(new Error(`exit code: ${(server as any).exitCode}`))
           } else {
             const axios_instance = axios.create({
-              timeout: 5000,
+              timeout: 10000,
             })
             const client = createClient(axios_instance, `http://localhost:${port}`)
             const env: HttpTestEnv = {
