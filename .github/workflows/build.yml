@@ -9,7 +9,7 @@ jobs:
   build_ubuntu:
     name: ubuntu Node.js ${{ matrix.node }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -38,7 +38,7 @@ jobs:
   build_windows:
     name: windows Node.js ${{ matrix.node }}
     runs-on: windows-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -80,7 +80,7 @@ jobs:
   build_macos:
     name: macos Node.js ${{ matrix.node }}
     runs-on: macos-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
