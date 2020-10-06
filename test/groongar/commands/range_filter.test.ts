@@ -6,33 +6,20 @@ const db_dir = path.join(__dirname, 'tmp.range_filter')
 let env: TestEnv | undefined
 
 describe('test', () => {
-  beforeAll(() => {
-    rimraf(db_dir)
-    mkdir(db_dir)
-  })
-
-  afterAll(() => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        rimraf(db_dir)
-        resolve()
-      }, 500)
-    })
-  })
-
   beforeEach(() => {
-    env = undefined as any
+    env = undefined
   })
 
-  afterEach(() => {
+  afterEach(async () => {
     if (env) {
-      const tmp = env
-      env = undefined as any
-      return teardownClient(tmp)
+      await teardownClient(env)
+      rimraf(db_dir)
     }
   })
 
   test('range_filter', async () => {
+    rimraf(db_dir)
+    mkdir(db_dir)
     env = await setupClient({
       db_path: path.join(db_dir, 'tmp.range_filter.db'),
     })
