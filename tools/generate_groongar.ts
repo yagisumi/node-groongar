@@ -167,13 +167,13 @@ function generate_method(cmd: string, vers: Vers, desc: string, optional: boolea
     ${comment(desc)}
     ${method_name(cmd)}<V extends ${
     vers.vers
-  }>(options${q}: opts<'${cmd}'> & CommandVersion<V>): Promise<Result<ret<'${cmd}', V>>>
+  }>(options${q}: Opts<'${cmd}'> & CommandVersion<V>): Promise<Result<Ret<'${cmd}', V>>>
     ${method_name(cmd)}<V extends ${
     vers.vers
-  } = ${vers.default.toString()}>(options${q}: opts<'${cmd}'>): Promise<Result<ret<'${cmd}', V>>>
+  } = ${vers.default.toString()}>(options${q}: Opts<'${cmd}'>): Promise<Result<Ret<'${cmd}', V>>>
     ${method_name(cmd)}<V extends ${
     vers.vers
-  }>(options${q}: opts<'${cmd}'> | (opts<'${cmd}'> & CommandVersion<V>)): Promise<Result<ret<'${cmd}', V>>> {
+  }>(options${q}: Opts<'${cmd}'> | (Opts<'${cmd}'> & CommandVersion<V>)): Promise<Result<Ret<'${cmd}', V>>> {
       return new Promise((resolve) => {
         try {
           const opts = this.mergeOptions('${cmd}', options)
@@ -197,13 +197,13 @@ function generate_flatten_method(cmd: string, vers: Vers, desc: string) {
   ${comment(desc)}
   ${method_name(cmd)}<V extends ${
     vers.vers
-  }>(options: opts<'${cmd}'> & CommandVersion<V>): Promise<Result<ret<'${cmd}', V>>>
+  }>(options: Opts<'${cmd}'> & CommandVersion<V>): Promise<Result<Ret<'${cmd}', V>>>
   ${method_name(cmd)}<V extends ${
     vers.vers
-  } = ${vers.default.toString()}>(options: opts<'${cmd}'>): Promise<Result<ret<'${cmd}', V>>>
+  } = ${vers.default.toString()}>(options: Opts<'${cmd}'>): Promise<Result<Ret<'${cmd}', V>>>
   ${method_name(cmd)}<V extends ${
     vers.vers
-  }>(options: opts<'${cmd}'> | (opts<'${cmd}'> & CommandVersion<V>)): Promise<Result<ret<'${cmd}', V>>> {
+  }>(options: Opts<'${cmd}'> | (Opts<'${cmd}'> & CommandVersion<V>)): Promise<Result<Ret<'${cmd}', V>>> {
       return new Promise((resolve) => {
         try {
           const flattened: CommandOptions = {}
@@ -230,23 +230,23 @@ function generate_table_create(vers: Vers, desc: string) {
   ${comment(desc)}
   tableCreate<V extends ${vers.vers}>(
     options: OptsTableCreateNonArray & CommandVersion<V>
-  ): Promise<Result<ret<'table_create', V>>>
+  ): Promise<Result<Ret<'table_create', V>>>
   tableCreate<V extends ${
     vers.vers
-  } = ${vers.default.toString()}>(options: OptsTableCreateNonArray): Promise<Result<ret<'table_create', V>>>
+  } = ${vers.default.toString()}>(options: OptsTableCreateNonArray): Promise<Result<Ret<'table_create', V>>>
   tableCreate<V extends ${vers.vers}>(
     options: OptsTableCreateArray & CommandVersion<V>
-  ): Promise<Result<ret<'table_create', V>>>
+  ): Promise<Result<Ret<'table_create', V>>>
   tableCreate<V extends ${
     vers.vers
-  } = ${vers.default.toString()}>(options: OptsTableCreateArray): Promise<Result<ret<'table_create', V>>>
+  } = ${vers.default.toString()}>(options: OptsTableCreateArray): Promise<Result<Ret<'table_create', V>>>
   tableCreate<V extends ${vers.vers}>(
     options:
       | OptsTableCreateArray
       | OptsTableCreateNonArray
       | (OptsTableCreateArray & CommandVersion<V>)
       | (OptsTableCreateNonArray & CommandVersion<V>)
-  ): Promise<Result<ret<'table_create', V>>> {
+  ): Promise<Result<Ret<'table_create', V>>> {
     return new Promise((resolve) => {
       try {
         const opts = this.mergeOptions('table_create', options)
