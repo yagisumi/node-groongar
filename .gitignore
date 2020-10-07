@@ -1,7 +1,7 @@
 node_modules/
 .rpt2_cache/
 *.tgz
-/.nyc_output
+/.nyc_output/
 /coverage/
 /umd/
 /lib/
