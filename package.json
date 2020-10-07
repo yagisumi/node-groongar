@@ -31,7 +31,7 @@
     "build:umd": "rollup -c config/rollup.config.umd.js",
     "build:d_ts": "tsc -p src -d --emitDeclarationOnly --outDir ./lib",
     "prepack": "run-s build test",
-    "tools:groongar": "ts-node tools/generate_groongar.ts"
+    "tools:groongar": "ts-node --files tools/generate_groongar.ts"
   },
   "author": "yagisumi",
   "repository": "github:yagisumi/node-groongar",

@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import heredoc from 'heredocument'
 import prettier from 'prettier'
+import prettierrc from '@yagisumi/my-config-prettier'
 
 const OPTIONAL = 'OPTIONAL'
 const REQUIRED = 'REQUIRED'
@@ -367,9 +368,6 @@ function generate_methods() {
 }
 
 function format(env: Env, src: string) {
-  const prettierrc = JSON.parse(
-    fs.readFileSync(path.join(env.groongar_root_dir, '.prettierrc.json'), { encoding: 'utf8' })
-  )
   prettierrc.parser = 'typescript'
   return prettier.format(src, prettierrc)
 }
