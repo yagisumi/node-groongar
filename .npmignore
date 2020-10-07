@@ -2,9 +2,10 @@
 yarn.lock
 yarn-error.log
 *.tgz
-/test/
-/docs/
+/config/
 /coverage/
+/docs/
+/test/
 /tools/
 /*.json
 /*.js
