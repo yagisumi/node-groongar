@@ -1,5 +1,5 @@
 module.exports = {
-  rootDir: '../',
+  rootDir: process.cwd(),
   testEnvironment: 'node',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
