@@ -1,7 +1,0 @@
-/lib
-/umd
-/tools/lib
-/tools/groonga
-/test/grntest
-/test/lib
-node_modules/

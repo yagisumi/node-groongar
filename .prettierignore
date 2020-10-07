@@ -3,7 +3,5 @@
 /lib
 /umd
 /test/lib
-/tools/lib
-/tools/groonga
-/test/grntest
 tsconfig.json
+tsconfig.*.json
