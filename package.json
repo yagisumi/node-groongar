@@ -15,7 +15,7 @@
     "prettier:check": "prettier --check \"**/*.{ts,js,json}\"",
     "prettier:fix": "prettier --write \"**/*.{ts,js,json}\"",
     "eslint": "eslint \"{src,test,tools}/**/*.{js,ts}\"",
-    "test-ci": "run-s prettier:check eslint test:build test:mocha:http test:mocha:nroonga:coverage",
+    "test-ci": "run-s prettier:check eslint build:* test:build test:mocha:http test:mocha:nroonga:coverage",
     "test:build": "tsc -p test/src",
     "test:jest:nroonga": "jest --config config/jest.config.js --testEnvironment=./test/lib/env_nroonga.js",
     "test:jest:http": "jest --config config/jest.config.js --testEnvironment=./test/lib/env_http.js --collectCoverage=false",
